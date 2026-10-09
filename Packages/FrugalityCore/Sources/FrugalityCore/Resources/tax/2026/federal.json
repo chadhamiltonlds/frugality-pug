@@ -1,0 +1,123 @@
+{
+  "year": 2026,
+  "standardDeduction": {
+    "single": 16100,
+    "marriedJoint": 32200,
+    "headOfHousehold": 24150
+  },
+  "brackets": {
+    "single": [
+      {
+        "from": 0,
+        "rate": 0.1
+      },
+      {
+        "from": 12400,
+        "rate": 0.12
+      },
+      {
+        "from": 50400,
+        "rate": 0.22
+      },
+      {
+        "from": 105700,
+        "rate": 0.24
+      },
+      {
+        "from": 201775,
+        "rate": 0.32
+      },
+      {
+        "from": 256225,
+        "rate": 0.35
+      },
+      {
+        "from": 640600,
+        "rate": 0.37
+      }
+    ],
+    "marriedJoint": [
+      {
+        "from": 0,
+        "rate": 0.1
+      },
+      {
+        "from": 24800,
+        "rate": 0.12
+      },
+      {
+        "from": 100800,
+        "rate": 0.22
+      },
+      {
+        "from": 211400,
+        "rate": 0.24
+      },
+      {
+        "from": 403550,
+        "rate": 0.32
+      },
+      {
+        "from": 512450,
+        "rate": 0.35
+      },
+      {
+        "from": 768700,
+        "rate": 0.37
+      }
+    ],
+    "headOfHousehold": [
+      {
+        "from": 0,
+        "rate": 0.1
+      },
+      {
+        "from": 17700,
+        "rate": 0.12
+      },
+      {
+        "from": 67450,
+        "rate": 0.22
+      },
+      {
+        "from": 105700,
+        "rate": 0.24
+      },
+      {
+        "from": 201750,
+        "rate": 0.32
+      },
+      {
+        "from": 256200,
+        "rate": 0.35
+      },
+      {
+        "from": 640600,
+        "rate": 0.37
+      }
+    ]
+  },
+  "socialSecurity": {
+    "rate": 0.062,
+    "wageBase": 184500
+  },
+  "medicare": {
+    "rate": 0.0145,
+    "additionalRate": 0.009,
+    "additionalThreshold": {
+      "single": 200000,
+      "marriedJoint": 250000,
+      "headOfHousehold": 200000
+    }
+  },
+  "childTaxCredit": {
+    "perChild": 2200,
+    "perOtherDependent": 500,
+    "phaseOutStart": {
+      "single": 200000,
+      "marriedJoint": 400000,
+      "headOfHousehold": 200000
+    },
+    "reductionPerThousand": 50
+  }
+}

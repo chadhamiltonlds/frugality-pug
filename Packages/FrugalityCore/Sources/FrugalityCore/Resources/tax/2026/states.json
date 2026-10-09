@@ -1,0 +1,2167 @@
+[
+ {
+  "code": "AK",
+  "name": "Alaska",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "AL",
+  "name": "Alabama",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 500,
+     "rate": 0.04
+    },
+    {
+     "from": 3000,
+     "rate": 0.05
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 1000,
+     "rate": 0.04
+    },
+    {
+     "from": 6000,
+     "rate": 0.05
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 3000,
+   "marriedJoint": 8500
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 1500,
+   "marriedJoint": 3000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1000
+  },
+  "approximate": true,
+  "note": "Alabama's deduction for federal income tax paid is not modeled."
+ },
+ {
+  "code": "AR",
+  "name": "Arkansas",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 4600,
+     "rate": 0.039
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 4600,
+     "rate": 0.039
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 2470,
+   "marriedJoint": 4940
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 29,
+   "marriedJoint": 58
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 29
+  }
+ },
+ {
+  "code": "AZ",
+  "name": "Arizona",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.025
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.025
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 8350,
+   "marriedJoint": 16700
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 100
+  }
+ },
+ {
+  "code": "CA",
+  "name": "California",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.01
+    },
+    {
+     "from": 11079,
+     "rate": 0.02
+    },
+    {
+     "from": 26264,
+     "rate": 0.04
+    },
+    {
+     "from": 41452,
+     "rate": 0.06
+    },
+    {
+     "from": 57542,
+     "rate": 0.08
+    },
+    {
+     "from": 72724,
+     "rate": 0.093
+    },
+    {
+     "from": 371479,
+     "rate": 0.103
+    },
+    {
+     "from": 445771,
+     "rate": 0.113
+    },
+    {
+     "from": 742953,
+     "rate": 0.123
+    },
+    {
+     "from": 1000000,
+     "rate": 0.133
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.01
+    },
+    {
+     "from": 22158,
+     "rate": 0.02
+    },
+    {
+     "from": 52528,
+     "rate": 0.04
+    },
+    {
+     "from": 82904,
+     "rate": 0.06
+    },
+    {
+     "from": 115084,
+     "rate": 0.08
+    },
+    {
+     "from": 145448,
+     "rate": 0.093
+    },
+    {
+     "from": 742958,
+     "rate": 0.103
+    },
+    {
+     "from": 891542,
+     "rate": 0.113
+    },
+    {
+     "from": 1000000,
+     "rate": 0.123
+    },
+    {
+     "from": 1485906,
+     "rate": 0.133
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 5540,
+   "marriedJoint": 11080
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 153,
+   "marriedJoint": 306
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 153
+  },
+  "approximate": true,
+  "note": "California SDI payroll tax is not included."
+ },
+ {
+  "code": "CO",
+  "name": "Colorado",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.044
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.044
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  }
+ },
+ {
+  "code": "CT",
+  "name": "Connecticut",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 10000,
+     "rate": 0.045
+    },
+    {
+     "from": 50000,
+     "rate": 0.055
+    },
+    {
+     "from": 100000,
+     "rate": 0.06
+    },
+    {
+     "from": 200000,
+     "rate": 0.065
+    },
+    {
+     "from": 250000,
+     "rate": 0.069
+    },
+    {
+     "from": 500000,
+     "rate": 0.0699
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 20000,
+     "rate": 0.045
+    },
+    {
+     "from": 100000,
+     "rate": 0.055
+    },
+    {
+     "from": 200000,
+     "rate": 0.06
+    },
+    {
+     "from": 400000,
+     "rate": 0.065
+    },
+    {
+     "from": 500000,
+     "rate": 0.069
+    },
+    {
+     "from": 1000000,
+     "rate": 0.0699
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 15000,
+   "marriedJoint": 24000
+  },
+  "approximate": true,
+  "note": "Connecticut's exemption phase-out and tax recapture are not modeled."
+ },
+ {
+  "code": "DC",
+  "name": "District of Columbia",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.04
+    },
+    {
+     "from": 10000,
+     "rate": 0.06
+    },
+    {
+     "from": 40000,
+     "rate": 0.065
+    },
+    {
+     "from": 60000,
+     "rate": 0.085
+    },
+    {
+     "from": 250000,
+     "rate": 0.0925
+    },
+    {
+     "from": 500000,
+     "rate": 0.0975
+    },
+    {
+     "from": 1000000,
+     "rate": 0.1075
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.04
+    },
+    {
+     "from": 10000,
+     "rate": 0.06
+    },
+    {
+     "from": 40000,
+     "rate": 0.065
+    },
+    {
+     "from": 60000,
+     "rate": 0.085
+    },
+    {
+     "from": 250000,
+     "rate": 0.0925
+    },
+    {
+     "from": 500000,
+     "rate": 0.0975
+    },
+    {
+     "from": 1000000,
+     "rate": 0.1075
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  }
+ },
+ {
+  "code": "DE",
+  "name": "Delaware",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 2000,
+     "rate": 0.022
+    },
+    {
+     "from": 5000,
+     "rate": 0.039
+    },
+    {
+     "from": 10000,
+     "rate": 0.048
+    },
+    {
+     "from": 20000,
+     "rate": 0.052
+    },
+    {
+     "from": 25000,
+     "rate": 0.0555
+    },
+    {
+     "from": 60000,
+     "rate": 0.066
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 2000,
+     "rate": 0.022
+    },
+    {
+     "from": 5000,
+     "rate": 0.039
+    },
+    {
+     "from": 10000,
+     "rate": 0.048
+    },
+    {
+     "from": 20000,
+     "rate": 0.052
+    },
+    {
+     "from": 25000,
+     "rate": 0.0555
+    },
+    {
+     "from": 60000,
+     "rate": 0.066
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 3250,
+   "marriedJoint": 6500
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 110,
+   "marriedJoint": 220
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 110
+  }
+ },
+ {
+  "code": "FL",
+  "name": "Florida",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "GA",
+  "name": "Georgia",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0519
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0519
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 12000,
+   "marriedJoint": 24000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 4000
+  }
+ },
+ {
+  "code": "HI",
+  "name": "Hawaii",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.014
+    },
+    {
+     "from": 9600,
+     "rate": 0.032
+    },
+    {
+     "from": 14400,
+     "rate": 0.055
+    },
+    {
+     "from": 19200,
+     "rate": 0.064
+    },
+    {
+     "from": 24000,
+     "rate": 0.068
+    },
+    {
+     "from": 36000,
+     "rate": 0.072
+    },
+    {
+     "from": 48000,
+     "rate": 0.076
+    },
+    {
+     "from": 125000,
+     "rate": 0.079
+    },
+    {
+     "from": 175000,
+     "rate": 0.0825
+    },
+    {
+     "from": 225000,
+     "rate": 0.09
+    },
+    {
+     "from": 275000,
+     "rate": 0.1
+    },
+    {
+     "from": 325000,
+     "rate": 0.11
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.014
+    },
+    {
+     "from": 19200,
+     "rate": 0.032
+    },
+    {
+     "from": 28800,
+     "rate": 0.055
+    },
+    {
+     "from": 38400,
+     "rate": 0.064
+    },
+    {
+     "from": 48000,
+     "rate": 0.068
+    },
+    {
+     "from": 72000,
+     "rate": 0.072
+    },
+    {
+     "from": 96000,
+     "rate": 0.076
+    },
+    {
+     "from": 250000,
+     "rate": 0.079
+    },
+    {
+     "from": 350000,
+     "rate": 0.0825
+    },
+    {
+     "from": 450000,
+     "rate": 0.09
+    },
+    {
+     "from": 550000,
+     "rate": 0.1
+    },
+    {
+     "from": 650000,
+     "rate": 0.11
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 4400,
+   "marriedJoint": 8800
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 1144,
+   "marriedJoint": 2288
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1144
+  }
+ },
+ {
+  "code": "IA",
+  "name": "Iowa",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.038
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.038
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 40,
+   "marriedJoint": 80
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 40
+  }
+ },
+ {
+  "code": "ID",
+  "name": "Idaho",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 4811,
+     "rate": 0.053
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 9622,
+     "rate": 0.053
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  }
+ },
+ {
+  "code": "IL",
+  "name": "Illinois",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0495
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0495
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 2925,
+   "marriedJoint": 5850
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 2925
+  }
+ },
+ {
+  "code": "IN",
+  "name": "Indiana",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0295
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0295
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 1000,
+   "marriedJoint": 2000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1000
+  }
+ },
+ {
+  "code": "KS",
+  "name": "Kansas",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.052
+    },
+    {
+     "from": 23000,
+     "rate": 0.0558
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.052
+    },
+    {
+     "from": 46000,
+     "rate": 0.0558
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 3605,
+   "marriedJoint": 8240
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 9160,
+   "marriedJoint": 18320
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 2320
+  }
+ },
+ {
+  "code": "KY",
+  "name": "Kentucky",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.035
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.035
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 3360,
+   "marriedJoint": 3360
+  }
+ },
+ {
+  "code": "LA",
+  "name": "Louisiana",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.03
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.03
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 12875,
+   "marriedJoint": 25750
+  }
+ },
+ {
+  "code": "MA",
+  "name": "Massachusetts",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.05
+    },
+    {
+     "from": 1083150,
+     "rate": 0.09
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.05
+    },
+    {
+     "from": 1083150,
+     "rate": 0.09
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 4400,
+   "marriedJoint": 8800
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1000
+  }
+ },
+ {
+  "code": "MD",
+  "name": "Maryland",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 1000,
+     "rate": 0.03
+    },
+    {
+     "from": 2000,
+     "rate": 0.04
+    },
+    {
+     "from": 3000,
+     "rate": 0.0475
+    },
+    {
+     "from": 100000,
+     "rate": 0.05
+    },
+    {
+     "from": 125000,
+     "rate": 0.0525
+    },
+    {
+     "from": 150000,
+     "rate": 0.055
+    },
+    {
+     "from": 250000,
+     "rate": 0.0575
+    },
+    {
+     "from": 500000,
+     "rate": 0.0625
+    },
+    {
+     "from": 1000000,
+     "rate": 0.065
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 1000,
+     "rate": 0.03
+    },
+    {
+     "from": 2000,
+     "rate": 0.04
+    },
+    {
+     "from": 3000,
+     "rate": 0.0475
+    },
+    {
+     "from": 150000,
+     "rate": 0.05
+    },
+    {
+     "from": 175000,
+     "rate": 0.0525
+    },
+    {
+     "from": 225000,
+     "rate": 0.055
+    },
+    {
+     "from": 300000,
+     "rate": 0.0575
+    },
+    {
+     "from": 600000,
+     "rate": 0.0625
+    },
+    {
+     "from": 1200000,
+     "rate": 0.065
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 3350,
+   "marriedJoint": 6700
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 3200,
+   "marriedJoint": 6400
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 3200
+  },
+  "approximate": true,
+  "note": "Maryland county income tax is not included."
+ },
+ {
+  "code": "ME",
+  "name": "Maine",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.058
+    },
+    {
+     "from": 27399,
+     "rate": 0.0675
+    },
+    {
+     "from": 64849,
+     "rate": 0.0715
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.058
+    },
+    {
+     "from": 54849,
+     "rate": 0.0675
+    },
+    {
+     "from": 129749,
+     "rate": 0.0715
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 8350,
+   "marriedJoint": 16700
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 5300,
+   "marriedJoint": 10600
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 305
+  }
+ },
+ {
+  "code": "MI",
+  "name": "Michigan",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0425
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0425
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 5900,
+   "marriedJoint": 11800
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 5900
+  }
+ },
+ {
+  "code": "MN",
+  "name": "Minnesota",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0535
+    },
+    {
+     "from": 33310,
+     "rate": 0.068
+    },
+    {
+     "from": 109430,
+     "rate": 0.0785
+    },
+    {
+     "from": 203150,
+     "rate": 0.0985
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0535
+    },
+    {
+     "from": 48700,
+     "rate": 0.068
+    },
+    {
+     "from": 193480,
+     "rate": 0.0785
+    },
+    {
+     "from": 337930,
+     "rate": 0.0985
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 15300,
+   "marriedJoint": 30600
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 5300
+  },
+  "approximate": true,
+  "note": "Minnesota's standard deduction phase-out is not modeled."
+ },
+ {
+  "code": "MO",
+  "name": "Missouri",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 1348,
+     "rate": 0.02
+    },
+    {
+     "from": 2696,
+     "rate": 0.025
+    },
+    {
+     "from": 4044,
+     "rate": 0.03
+    },
+    {
+     "from": 5392,
+     "rate": 0.035
+    },
+    {
+     "from": 6740,
+     "rate": 0.04
+    },
+    {
+     "from": 8088,
+     "rate": 0.045
+    },
+    {
+     "from": 9436,
+     "rate": 0.047
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 1348,
+     "rate": 0.02
+    },
+    {
+     "from": 2696,
+     "rate": 0.025
+    },
+    {
+     "from": 4044,
+     "rate": 0.03
+    },
+    {
+     "from": 5392,
+     "rate": 0.035
+    },
+    {
+     "from": 6740,
+     "rate": 0.04
+    },
+    {
+     "from": 8088,
+     "rate": 0.045
+    },
+    {
+     "from": 9436,
+     "rate": 0.047
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  }
+ },
+ {
+  "code": "MS",
+  "name": "Mississippi",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 10000,
+     "rate": 0.04
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 10000,
+     "rate": 0.04
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 2300,
+   "marriedJoint": 4600
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 6000,
+   "marriedJoint": 12000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1500
+  }
+ },
+ {
+  "code": "MT",
+  "name": "Montana",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.047
+    },
+    {
+     "from": 47500,
+     "rate": 0.0565
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.047
+    },
+    {
+     "from": 95000,
+     "rate": 0.0565
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  }
+ },
+ {
+  "code": "NC",
+  "name": "North Carolina",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0399
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0399
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 12750,
+   "marriedJoint": 25500
+  }
+ },
+ {
+  "code": "ND",
+  "name": "North Dakota",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 48475,
+     "rate": 0.0195
+    },
+    {
+     "from": 244825,
+     "rate": 0.025
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 80975,
+     "rate": 0.0195
+    },
+    {
+     "from": 298075,
+     "rate": 0.025
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  }
+ },
+ {
+  "code": "NE",
+  "name": "Nebraska",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0246
+    },
+    {
+     "from": 4130,
+     "rate": 0.0351
+    },
+    {
+     "from": 24760,
+     "rate": 0.0455
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0246
+    },
+    {
+     "from": 8250,
+     "rate": 0.0351
+    },
+    {
+     "from": 49530,
+     "rate": 0.0455
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 8850,
+   "marriedJoint": 17700
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 176,
+   "marriedJoint": 352
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 176
+  }
+ },
+ {
+  "code": "NH",
+  "name": "New Hampshire",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "NJ",
+  "name": "New Jersey",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.014
+    },
+    {
+     "from": 20000,
+     "rate": 0.0175
+    },
+    {
+     "from": 35000,
+     "rate": 0.035
+    },
+    {
+     "from": 40000,
+     "rate": 0.0553
+    },
+    {
+     "from": 75000,
+     "rate": 0.0637
+    },
+    {
+     "from": 500000,
+     "rate": 0.0897
+    },
+    {
+     "from": 1000000,
+     "rate": 0.1075
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.014
+    },
+    {
+     "from": 20000,
+     "rate": 0.0175
+    },
+    {
+     "from": 50000,
+     "rate": 0.0245
+    },
+    {
+     "from": 70000,
+     "rate": 0.035
+    },
+    {
+     "from": 80000,
+     "rate": 0.0553
+    },
+    {
+     "from": 150000,
+     "rate": 0.0637
+    },
+    {
+     "from": 500000,
+     "rate": 0.0897
+    },
+    {
+     "from": 1000000,
+     "rate": 0.1075
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 1000,
+   "marriedJoint": 2000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1500
+  },
+  "taxes401kContributions": true
+ },
+ {
+  "code": "NM",
+  "name": "New Mexico",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.015
+    },
+    {
+     "from": 5500,
+     "rate": 0.032
+    },
+    {
+     "from": 16500,
+     "rate": 0.043
+    },
+    {
+     "from": 33500,
+     "rate": 0.047
+    },
+    {
+     "from": 66500,
+     "rate": 0.049
+    },
+    {
+     "from": 210000,
+     "rate": 0.059
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.015
+    },
+    {
+     "from": 8000,
+     "rate": 0.032
+    },
+    {
+     "from": 25000,
+     "rate": 0.043
+    },
+    {
+     "from": 50000,
+     "rate": 0.047
+    },
+    {
+     "from": 100000,
+     "rate": 0.049
+    },
+    {
+     "from": 315000,
+     "rate": 0.059
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 16100,
+   "marriedJoint": 32200
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 4000
+  }
+ },
+ {
+  "code": "NV",
+  "name": "Nevada",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "NY",
+  "name": "New York",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.039
+    },
+    {
+     "from": 8500,
+     "rate": 0.044
+    },
+    {
+     "from": 11700,
+     "rate": 0.0515
+    },
+    {
+     "from": 13900,
+     "rate": 0.054
+    },
+    {
+     "from": 80650,
+     "rate": 0.059
+    },
+    {
+     "from": 215400,
+     "rate": 0.0685
+    },
+    {
+     "from": 1077550,
+     "rate": 0.0965
+    },
+    {
+     "from": 5000000,
+     "rate": 0.103
+    },
+    {
+     "from": 25000000,
+     "rate": 0.109
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.039
+    },
+    {
+     "from": 17150,
+     "rate": 0.044
+    },
+    {
+     "from": 23600,
+     "rate": 0.0515
+    },
+    {
+     "from": 27900,
+     "rate": 0.054
+    },
+    {
+     "from": 161550,
+     "rate": 0.059
+    },
+    {
+     "from": 323200,
+     "rate": 0.0685
+    },
+    {
+     "from": 2155350,
+     "rate": 0.0965
+    },
+    {
+     "from": 5000000,
+     "rate": 0.103
+    },
+    {
+     "from": 25000000,
+     "rate": 0.109
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 8000,
+   "marriedJoint": 16050
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1000
+  },
+  "approximate": true,
+  "note": "New York local (NYC/Yonkers) income tax is not included."
+ },
+ {
+  "code": "OH",
+  "name": "Ohio",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 26050,
+     "rate": 0.0275
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 26050,
+     "rate": 0.0275
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 2400,
+   "marriedJoint": 4800
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 2400
+  },
+  "approximate": true,
+  "note": "Ohio's income-based exemption tiers are not modeled; the maximum exemption is used."
+ },
+ {
+  "code": "OK",
+  "name": "Oklahoma",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 3750,
+     "rate": 0.025
+    },
+    {
+     "from": 4900,
+     "rate": 0.035
+    },
+    {
+     "from": 7200,
+     "rate": 0.045
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 7500,
+     "rate": 0.025
+    },
+    {
+     "from": 9800,
+     "rate": 0.035
+    },
+    {
+     "from": 14400,
+     "rate": 0.045
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 6350,
+   "marriedJoint": 12700
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 1000,
+   "marriedJoint": 2000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 1000
+  }
+ },
+ {
+  "code": "OR",
+  "name": "Oregon",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0475
+    },
+    {
+     "from": 4550,
+     "rate": 0.0675
+    },
+    {
+     "from": 11400,
+     "rate": 0.0875
+    },
+    {
+     "from": 125000,
+     "rate": 0.099
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0475
+    },
+    {
+     "from": 9100,
+     "rate": 0.0675
+    },
+    {
+     "from": 22800,
+     "rate": 0.0875
+    },
+    {
+     "from": 250000,
+     "rate": 0.099
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 2910,
+   "marriedJoint": 5820
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 256,
+   "marriedJoint": 512
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 256
+  },
+  "approximate": true,
+  "note": "Oregon's federal tax subtraction is not modeled."
+ },
+ {
+  "code": "PA",
+  "name": "Pennsylvania",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0307
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0307
+    }
+   ]
+  },
+  "taxes401kContributions": true
+ },
+ {
+  "code": "RI",
+  "name": "Rhode Island",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0375
+    },
+    {
+     "from": 82050,
+     "rate": 0.0475
+    },
+    {
+     "from": 186450,
+     "rate": 0.0599
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0375
+    },
+    {
+     "from": 82050,
+     "rate": 0.0475
+    },
+    {
+     "from": 186450,
+     "rate": 0.0599
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 11200,
+   "marriedJoint": 22400
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 5250,
+   "marriedJoint": 10500
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 5250
+  }
+ },
+ {
+  "code": "SC",
+  "name": "South Carolina",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 3640,
+     "rate": 0.03
+    },
+    {
+     "from": 18230,
+     "rate": 0.06
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0
+    },
+    {
+     "from": 3640,
+     "rate": 0.03
+    },
+    {
+     "from": 18230,
+     "rate": 0.06
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 8350,
+   "marriedJoint": 16700
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 4930
+  },
+  "approximate": true,
+  "note": "South Carolina's top rate is scheduled to change July 1, 2026; the table rate is used."
+ },
+ {
+  "code": "SD",
+  "name": "South Dakota",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "TN",
+  "name": "Tennessee",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "TX",
+  "name": "Texas",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "UT",
+  "name": "Utah",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.045
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.045
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "credit",
+   "single": 966,
+   "marriedJoint": 1932
+  },
+  "dependentExemption": {
+   "kind": "credit",
+   "amount": 126.66
+  },
+  "approximate": true,
+  "note": "Utah's income-based credit phase-out is not modeled; the full credit is used."
+ },
+ {
+  "code": "VA",
+  "name": "Virginia",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 3000,
+     "rate": 0.03
+    },
+    {
+     "from": 5000,
+     "rate": 0.05
+    },
+    {
+     "from": 17000,
+     "rate": 0.0575
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.02
+    },
+    {
+     "from": 3000,
+     "rate": 0.03
+    },
+    {
+     "from": 5000,
+     "rate": 0.05
+    },
+    {
+     "from": 17000,
+     "rate": 0.0575
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 8750,
+   "marriedJoint": 17500
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 930,
+   "marriedJoint": 1860
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 930
+  }
+ },
+ {
+  "code": "VT",
+  "name": "Vermont",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0335
+    },
+    {
+     "from": 49400,
+     "rate": 0.066
+    },
+    {
+     "from": 119700,
+     "rate": 0.076
+    },
+    {
+     "from": 249700,
+     "rate": 0.0875
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0335
+    },
+    {
+     "from": 82500,
+     "rate": 0.066
+    },
+    {
+     "from": 199450,
+     "rate": 0.076
+    },
+    {
+     "from": 304000,
+     "rate": 0.0875
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 7650,
+   "marriedJoint": 15300
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 5300,
+   "marriedJoint": 10600
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 5300
+  }
+ },
+ {
+  "code": "WA",
+  "name": "Washington",
+  "hasIncomeTax": false
+ },
+ {
+  "code": "WI",
+  "name": "Wisconsin",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.035
+    },
+    {
+     "from": 15110,
+     "rate": 0.044
+    },
+    {
+     "from": 51950,
+     "rate": 0.053
+    },
+    {
+     "from": 332720,
+     "rate": 0.0765
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.035
+    },
+    {
+     "from": 20150,
+     "rate": 0.044
+    },
+    {
+     "from": 69260,
+     "rate": 0.053
+    },
+    {
+     "from": 443630,
+     "rate": 0.0765
+    }
+   ]
+  },
+  "standardDeduction": {
+   "single": 13960,
+   "marriedJoint": 25840
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 700,
+   "marriedJoint": 1400
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 700
+  },
+  "approximate": true,
+  "note": "Wisconsin's standard deduction phase-out is not modeled."
+ },
+ {
+  "code": "WV",
+  "name": "West Virginia",
+  "hasIncomeTax": true,
+  "brackets": {
+   "single": [
+    {
+     "from": 0,
+     "rate": 0.0222
+    },
+    {
+     "from": 10000,
+     "rate": 0.0296
+    },
+    {
+     "from": 25000,
+     "rate": 0.0333
+    },
+    {
+     "from": 40000,
+     "rate": 0.0444
+    },
+    {
+     "from": 60000,
+     "rate": 0.0482
+    }
+   ],
+   "marriedJoint": [
+    {
+     "from": 0,
+     "rate": 0.0222
+    },
+    {
+     "from": 10000,
+     "rate": 0.0296
+    },
+    {
+     "from": 25000,
+     "rate": 0.0333
+    },
+    {
+     "from": 40000,
+     "rate": 0.0444
+    },
+    {
+     "from": 60000,
+     "rate": 0.0482
+    }
+   ]
+  },
+  "personalExemption": {
+   "kind": "deduction",
+   "single": 2000,
+   "marriedJoint": 4000
+  },
+  "dependentExemption": {
+   "kind": "deduction",
+   "amount": 2000
+  }
+ },
+ {
+  "code": "WY",
+  "name": "Wyoming",
+  "hasIncomeTax": false
+ }
+]

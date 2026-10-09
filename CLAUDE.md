@@ -25,8 +25,11 @@ The Linux container where Claude works has no Swift toolchain, so tests and buil
 CLAUDE.md              this file (keep under ~150 lines)
 CREDENTIALS.md         which credentials exist and where they live (no secret values)
 project.yml            XcodeGen spec; generates the .xcodeproj on CI (never hand-edit or commit the .xcodeproj)
-codemagic.yaml         CI: generate project, run core tests, build, upload to TestFlight
+codemagic.yaml         CI: `ci-check` (every push: core tests + simulator build) and `testflight` (manual upload)
+Config/                holds the generated Info.plist (gitignored)
 App/                   iOS target (SwiftUI)
+  FrugalityPugApp.swift  app entry
+  Home/                home grid and the Feature list (add new calculators here)
   Theme/               colors, fonts, card styles (single source of look and feel)
   Persistence/         the only place that reads/writes saved data; versioned, with migrations
   Shared/              views/helpers used by 2+ features
@@ -36,8 +39,8 @@ Packages/FrugalityCore/  Swift package: all calculation logic, no UI/persistence
   Sources/FrugalityCore/Shared/   money/rate helpers shared by features
   Sources/FrugalityCore/Resources/tax/<year>/   federal and per-state tax data (JSON)
   Tests/FrugalityCoreTests/       unit tests, mirrors Sources layout
-Assets/                icon source art and image sources
-docs/                  long reference notes (link from here, do not paste into this file)
+Assets/                icon generator (make_icon.py); the icon PNG lives in App/Assets.xcassets
+docs/                  long reference notes (tax-data.md: sources, modeling limits, yearly update steps)
 ```
 
 ## Features (folder name in both `App/Features` and `FrugalityCore`)
@@ -47,7 +50,7 @@ docs/                  long reference notes (link from here, do not paste into t
 | RentVsBuy | Rent vs buy analysis for homes, built from scratch | planned |
 | NetWorth | Debts and assets in, net worth out | planned |
 | RealEstateSnowball | How fast one rental can snowball into more properties | planned |
-| TakeHome | Net pay from gross, state, dependents, filing status, pre-tax deductions | planned |
+| TakeHome | Net pay from gross, state, dependents, filing status, pre-tax deductions | built, awaiting first CI run |
 | Budget | Line-by-line monthly income and expenses with categories | planned |
 
 Update the Status column when a feature lands.
@@ -62,7 +65,8 @@ Update the Status column when a feature lands.
 ## Domain rules
 - Pay frequency: monthly or semi-monthly (24 per year) only. No biweekly, ever.
 - TakeHome v1: federal income tax, FICA, state income tax for 50 states plus DC, filing status, dependents, pre-tax deductions. No local taxes.
-- Currency: use `Decimal`, not `Double`, for money. Round only at display.
+- Currency: use `Decimal`, not `Double`, for money. Round to cents at each tax line, not mid-calculation.
+- Tax data details, sources, and known limits: `docs/tax-data.md`.
 
 ## Theme (matches Priority Pusher)
 Cream `#FFF4E4`, peach `#F9D3A0`, red accent `#E5484D`, muted brown `#8A6F66`, dark brown text `#2B1E1A`.

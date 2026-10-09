@@ -1,0 +1,77 @@
+# Codemagic CI. Two workflows:
+#   ci-check  - runs on every push: core unit tests + simulator build. Needs no Apple credentials.
+#   testflight - manual: signs, builds, uploads to TestFlight. Needs the App Store Connect setup below.
+
+workflows:
+  ci-check:
+    name: CI check
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "*"
+          include: true
+          source: true
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      - name: Run core tests
+        script: |
+          cd Packages/FrugalityCore
+          swift test
+      - name: Generate Xcode project
+        script: xcodegen generate
+      - name: Build for simulator (no signing)
+        script: |
+          xcodebuild build \
+            -project FrugalityPug.xcodeproj \
+            -scheme FrugalityPug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
+
+  testflight:
+    name: TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    integrations:
+      # TODO: set to the name of your App Store Connect API key under Codemagic > Teams > Integrations.
+      app_store_connect: REPLACE_WITH_INTEGRATION_NAME
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.frugalitypug.app
+      vars:
+        # TODO: the numeric Apple ID of the app in App Store Connect (App Information > General).
+        APP_STORE_APPLE_ID: "REPLACE_WITH_APPLE_ID"
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      - name: Run core tests
+        script: |
+          cd Packages/FrugalityCore
+          swift test
+      - name: Generate Xcode project
+        script: xcodegen generate
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Set build number from TestFlight
+        script: |
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" 2>/dev/null || echo 0)
+          agvtool new-version -all $((LATEST + 1))
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa \
+            --project "FrugalityPug.xcodeproj" \
+            --scheme "FrugalityPug"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

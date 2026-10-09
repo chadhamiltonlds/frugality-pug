@@ -46,8 +46,8 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.frugalitypug.app
       vars:
-        # TODO: the numeric Apple ID of the app in App Store Connect (App Information > General).
-        APP_STORE_APPLE_ID: "REPLACE_WITH_APPLE_ID"
+        # Numeric Apple ID of the app in App Store Connect (App Information).
+        APP_STORE_APPLE_ID: "6821125716"
     scripts:
       - name: Install XcodeGen
         script: brew install xcodegen

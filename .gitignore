@@ -1,0 +1,23 @@
+# Generated Xcode project (built from project.yml)
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+build/
+.build/
+.swiftpm/
+Packages/*/.build/
+
+# Secrets (see CREDENTIALS.md)
+.env
+.env.*
+secrets/
+*.p8
+*.p12
+*.mobileprovision
+*.cer
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/

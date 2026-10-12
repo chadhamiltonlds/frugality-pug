@@ -71,12 +71,12 @@ Update the Status column when a feature lands.
 ## Theme (matches Priority Pusher)
 Cream `#FFF4E4`, peach `#F9D3A0`, red accent `#E5484D`, muted brown `#8A6F66`, dark brown text `#2B1E1A`.
 Warm peach gradient backgrounds, white rounded cards, red/orange/tan chips.
-Icon: the fawn pug head next to a bag of money, on the peach background.
+Icon: Priority Pusher's fawn pug hugging a green money bag, on the peach gradient. Drawn by `Assets/make_icon.py`.
 
 ## Build and accounts
 - GitHub: `chadhamiltonlds/frugality-pug`. Claude's GitHub access follows whichever account Chad's claude.ai GitHub integration is connected to; one account at a time.
 - CI: Codemagic (reused from Priority Pusher). Apple developer account: the family account.
-- Bundle ID (proposed, confirm before creating the App Store Connect entry): `com.frugalitypug.app`.
+- Bundle ID: `com.frugalitypug.app` (registered). App Store Connect Apple ID: 6821125716.
 
 ## Token hygiene
 - Keep this file short. Put long notes in `docs/` and link them.

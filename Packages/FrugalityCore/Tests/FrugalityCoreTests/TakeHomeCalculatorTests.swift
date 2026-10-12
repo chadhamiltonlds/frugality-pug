@@ -27,6 +27,14 @@ final class TakeHomeCalculatorTests: XCTestCase {
         XCTAssertEqual(r.netPerPeriod, dec("2099.58"))
     }
 
+    func testBiweeklyDividesByTwentySix() throws {
+        let r = try run(TakeHomeInput(grossAnnual: 100_000, payFrequency: .biweekly, stateCode: "TX"))
+        XCTAssertEqual(r.netAnnual, 79180)
+        XCTAssertEqual(r.periodsPerYear, 26)
+        XCTAssertEqual(r.netPerPeriod, dec("3045.38"))
+        XCTAssertEqual(r.grossPerPeriod, dec("3846.15"))
+    }
+
     func testMarriedWithChildrenGetsChildTaxCredit() throws {
         let r = try run(TakeHomeInput(grossAnnual: 150_000, filingStatus: .marriedJoint, stateCode: "TX", childrenUnder17: 2))
         XCTAssertEqual(r.federalIncomeTax, 10940)

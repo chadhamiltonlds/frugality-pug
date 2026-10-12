@@ -63,7 +63,7 @@ Update the Status column when a feature lands.
 - The `.xcodeproj` is generated from `project.yml`. Add files by dropping them in folders, not by editing project files.
 
 ## Domain rules
-- Pay frequency: monthly or semi-monthly (24 per year) only. No biweekly, ever.
+- Pay frequency: Budget allows monthly or semi-monthly (24 per year) only, never biweekly. TakeHome also offers biweekly (26 per year).
 - TakeHome v1: federal income tax, FICA, state income tax for 50 states plus DC, filing status, dependents, pre-tax deductions. No local taxes.
 - Currency: use `Decimal`, not `Double`, for money. Round to cents at each tax line, not mid-calculation.
 - Tax data details, sources, and known limits: `docs/tax-data.md`.

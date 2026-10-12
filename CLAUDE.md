@@ -29,7 +29,7 @@ codemagic.yaml         CI: `ci-check` (every push: core tests + simulator build)
 Config/                holds the generated Info.plist (gitignored)
 App/                   iOS target (SwiftUI)
   FrugalityPugApp.swift  app entry
-  Home/                home grid and the Feature list (add new calculators here)
+  Home/                home grid, reorderable tiles, and the Feature list (add new calculators here)
   Theme/               colors, fonts, card styles (single source of look and feel)
   Persistence/         the only place that reads/writes saved data; versioned, with migrations
   Shared/              views/helpers used by 2+ features
@@ -40,25 +40,29 @@ Packages/FrugalityCore/  Swift package: all calculation logic, no UI/persistence
   Sources/FrugalityCore/Resources/tax/<year>/   federal and per-state tax data (JSON)
   Tests/FrugalityCoreTests/       unit tests, mirrors Sources layout
 Assets/                icon generator (make_icon.py); the icon PNG lives in App/Assets.xcassets
-docs/                  long reference notes (tax-data.md: sources, modeling limits, yearly update steps)
+docs/                  features/<name>.md per calculator, features/shared.md, tax-data.md
 ```
 
-## Features (folder name in both `App/Features` and `FrugalityCore`)
-| Folder | What it does | Status |
-|---|---|---|
-| Retirement | Projects savings at retirement from adjustable parameters | planned |
-| RentVsBuy | Rent vs buy analysis for homes, built from scratch | planned |
-| NetWorth | Debts and assets in, net worth out | planned |
-| RealEstateSnowball | How fast one rental can snowball into more properties | planned |
-| TakeHome | Net pay from gross, state, dependents, filing status, pre-tax deductions | built, awaiting first CI run |
-| Budget | Line-by-line monthly income and expenses with categories | planned |
+## Features
+Each calculator lives in exactly two folders, `App/Features/<Folder>/` and `Packages/FrugalityCore/Sources/FrugalityCore/<Folder>/`, plus its tests and one doc.
+**To change one calculator, read only its doc, its two folders, and its test file. Read `docs/features/shared.md` instead of the shared source files. Don't read other features.**
 
-Update the Status column when a feature lands.
+| Folder | Doc | Status |
+|---|---|---|
+| TakeHome | `docs/features/take-home.md` | built |
+| Retirement | `docs/features/retirement.md` | built |
+| NetWorth | `docs/features/net-worth.md` | built |
+| RentVsBuy | `docs/features/rent-vs-buy.md` | built |
+| RealEstateSnowball | `docs/features/real-estate-snowball.md` | built |
+| Budget | `docs/features/budget.md` | built |
+
+Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`).
+When you change a calculator's inputs, outputs, or method, update its doc in the same commit.
 
 ## Architecture rules (what keeps changes safe)
 - `FrugalityCore` never imports SwiftUI or touches storage. Inputs and outputs are plain Codable structs. Pure functions.
 - Features do not import each other. Shared code goes in `App/Shared` or `FrugalityCore/Shared`.
-- Persisted data: change a saved field only with a version bump and a migration in `App/Persistence`.
+- Persisted data: `App/Persistence/JSONStore.swift` (one JSON file per `StoreKey`). Change a saved type's shape only with a version bump (and a migration if old data must survive).
 - Tax data: add a new `<year>` folder; never edit a released year in place unless fixing a verified error.
 - The `.xcodeproj` is generated from `project.yml`. Add files by dropping them in folders, not by editing project files.
 
@@ -80,4 +84,4 @@ Icon: Priority Pusher's fawn pug hugging a green money bag, on the peach gradien
 
 ## Token hygiene
 - Keep this file short. Put long notes in `docs/` and link them.
-- Run `/init` once real code exists (after `FrugalityCore` and the first feature are in) to regenerate and trim this file. Keep the Working rules, Chad's preferences, and Layout sections when it does.
+- If `/init` is run to regenerate this file, keep the Working rules, Chad's preferences, Layout, and Features sections.

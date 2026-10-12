@@ -4,7 +4,7 @@ public enum TakeHomeError: Error, Equatable {
     case unknownState(String)
 }
 
-public struct TakeHomeInput: Equatable {
+public struct TakeHomeInput: Codable, Equatable {
     public var grossAnnual: Decimal
     public var payFrequency: PayFrequency
     public var filingStatus: FilingStatus

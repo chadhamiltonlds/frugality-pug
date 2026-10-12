@@ -3,7 +3,9 @@ import FrugalityCore
 
 @MainActor
 final class TakeHomeViewModel: ObservableObject {
-    @Published var input = TakeHomeInput(grossAnnual: 0, payFrequency: .monthly, filingStatus: .single, stateCode: "OK")
+    @Published var input: TakeHomeInput {
+        didSet { JSONStore.save(input, key: .takeHome) }
+    }
     @Published private(set) var result: TakeHomeResult?
     @Published private(set) var errorMessage: String?
 
@@ -12,6 +14,8 @@ final class TakeHomeViewModel: ObservableObject {
     private let data: TaxYearData?
 
     init() {
+        input = JSONStore.load(TakeHomeInput.self, key: .takeHome)
+            ?? TakeHomeInput(grossAnnual: 0, payFrequency: .monthly, filingStatus: .single, stateCode: "OK")
         do {
             let loaded = try TaxYearData.load()
             data = loaded

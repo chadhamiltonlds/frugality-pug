@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// The six calculators. To add one: add a case here, a folder in App/Features, and a folder in FrugalityCore.
+/// The six calculators. To add one: add a case here, a folder in App/Features, a folder in FrugalityCore,
+/// a StoreKey in App/Persistence/JSONStore.swift, and a doc in docs/features/.
 enum Feature: String, CaseIterable, Identifiable {
     case retirement
     case rentVsBuy
@@ -44,18 +45,29 @@ enum Feature: String, CaseIterable, Identifiable {
         }
     }
 
-    var isAvailable: Bool {
-        switch self {
-        case .takeHome: return true
-        default: return false
-        }
-    }
-
     @MainActor @ViewBuilder
     var destination: some View {
         switch self {
+        case .retirement: RetirementView()
+        case .rentVsBuy: RentVsBuyView()
+        case .netWorth: NetWorthView()
+        case .realEstateSnowball: SnowballView()
         case .takeHome: TakeHomeView()
-        default: ComingSoonView(title: title)
+        case .budget: BudgetView()
         }
+    }
+
+    /// Applies a saved order: known features in saved order, then any new ones in default order.
+    static func ordered(savedIDs: [String]) -> [Feature] {
+        var result: [Feature] = []
+        for id in savedIDs {
+            if let feature = Feature(rawValue: id), !result.contains(feature) {
+                result.append(feature)
+            }
+        }
+        for feature in allCases where !result.contains(feature) {
+            result.append(feature)
+        }
+        return result
     }
 }

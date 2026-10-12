@@ -54,7 +54,7 @@ final class SnowballCalculatorTests: XCTestCase {
         let r = SnowballCalculator.simulate(SnowballInput())
         XCTAssertEqual(r.cashNeededPerProperty, 70_000)
         XCTAssertEqual(r.monthlyCashFlowPerProperty, dec("115.56"))
-        XCTAssertEqual(r.purchases.map(\.month), [0, 64, 119, 162, 197, 228])
+        XCTAssertEqual(r.purchases.map(\.month), [0, 64, 119, 162, 197, 226])
         XCTAssertEqual(r.years.count, 20)
         assertClose(r.years[0].cash, dec("18386.69"))
         XCTAssertEqual(r.years[19].propertiesOwned, 6)

@@ -3,10 +3,10 @@ import Foundation
 /// Fixed-rate, fully amortizing loan math shared by RentVsBuy and RealEstateSnowball.
 public enum Mortgage {
     /// Monthly principal + interest payment. 0 when there is no principal; principal / months at a 0% rate.
-    /// `years` below 1 is treated as 1.
+    /// `years` is clamped to 1...50.
     public static func monthlyPayment(principal: Decimal, annualRate: Decimal, years: Int) -> Decimal {
         guard principal > 0 else { return 0 }
-        let months = max(years, 1) * 12
+        let months = years.clamped(1, 50) * 12
         let r = max(annualRate, 0) / 12
         guard r > 0 else { return principal / Decimal(months) }
         let factor = pow(1 + r, months)

@@ -24,6 +24,13 @@ final class MortgageTests: XCTestCase {
         assertClose(balance, 0, tolerance: dec("0.01"))
     }
 
+    func testTermIsClamped() {
+        let thirty = Mortgage.monthlyPayment(principal: 100_000, annualRate: dec("0.05"), years: 50)
+        XCTAssertEqual(Mortgage.monthlyPayment(principal: 100_000, annualRate: dec("0.05"), years: Int.max), thirty)
+        let one = Mortgage.monthlyPayment(principal: 100_000, annualRate: dec("0.05"), years: 1)
+        XCTAssertEqual(Mortgage.monthlyPayment(principal: 100_000, annualRate: dec("0.05"), years: -3), one)
+    }
+
     func testStepOnPaidOffLoanDoesNothing() {
         let step = Mortgage.step(balance: 0, annualRate: dec("0.05"), payment: 500)
         XCTAssertEqual(step.interest, 0)

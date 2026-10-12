@@ -26,7 +26,9 @@ struct PercentField: View {
     }
 
     static func parse(_ text: String) -> Decimal {
-        let cleaned = text.filter { $0.isNumber || $0 == "." || $0 == "-" }
-        return (Decimal(string: cleaned, locale: Locale(identifier: "en_US_POSIX")) ?? 0) / 100
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        let digits = trimmed.filter { $0.isNumber || $0 == "." }
+        let signed = trimmed.hasPrefix("-") ? "-" + digits : digits
+        return (Decimal(string: signed, locale: Locale(identifier: "en_US_POSIX")) ?? 0) / 100
     }
 }

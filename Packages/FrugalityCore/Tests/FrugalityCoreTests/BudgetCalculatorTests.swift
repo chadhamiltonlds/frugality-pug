@@ -64,6 +64,8 @@ final class BudgetCalculatorTests: XCTestCase {
             ("Groceries", BudgetCategories.food),
             ("Roth IRA", BudgetCategories.savings),
             ("Daycare", BudgetCategories.kids),
+            ("Lunches", BudgetCategories.food),
+            ("Bus passes", BudgetCategories.transportation),
             ("Something odd", BudgetCategories.other),
             ("", BudgetCategories.other)
         ]

@@ -103,6 +103,7 @@ private struct FeatureTile: View {
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, minHeight: 130, maxHeight: 130, alignment: .topLeading)
+        .dynamicTypeSize(...DynamicTypeSize.xLarge)
         .card()
         .contentShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
     }

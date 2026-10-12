@@ -35,7 +35,7 @@ public enum BudgetCategories {
     }
 
     /// Checked in order; the first rule with a matching keyword wins. Multi-word keywords match as phrases,
-    /// single words match whole words (or their plural).
+    /// single words match whole words (or their plural with -s or -es).
     private static let rules: [(category: String, keywords: [String])] = [
         (savings, ["401k", "401", "403b", "ira", "roth", "savings", "save", "invest", "investing", "brokerage", "529", "hsa", "emergency fund"]),
         (debt, ["loan", "debt", "credit card", "minimum payment"]),
@@ -60,7 +60,7 @@ public enum BudgetCategories {
             for keyword in rule.keywords {
                 let matches = keyword.contains(" ")
                     ? lower.contains(keyword)
-                    : words.contains(keyword) || words.contains(keyword + "s")
+                    : words.contains(keyword) || words.contains(keyword + "s") || words.contains(keyword + "es")
                 if matches { return rule.category }
             }
         }

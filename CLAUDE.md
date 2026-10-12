@@ -1,6 +1,6 @@
 # Frugality Pug
 
-Native SwiftUI iPhone personal-finance app (budget, retirement, net worth, real estate, take-home pay).
+Native SwiftUI iPhone personal-finance app (budget, retirement, net worth, real estate, take-home pay, loan amortization).
 On-device only: no accounts, no cloud, no analytics, no ads. Owner: Chad.
 Chad has a PC and an iPhone, no Mac. Builds run on Codemagic and ship through TestFlight.
 The Linux container where Claude works has no Swift toolchain, so tests and builds run in Codemagic CI, not locally.
@@ -12,7 +12,7 @@ The Linux container where Claude works has no Swift toolchain, so tests and buil
 4. Tax rates, brackets, and limits live in data files under `Resources/tax/<year>/`, never in Swift code.
 5. Never commit secrets. See `CREDENTIALS.md`.
 6. Priority Pusher (`chadhamiltonlds/priority-pusher-site`) and Platypug (`platypuggames/platypug`) are read-only. Look and copy, never change, push to, or reconfigure them.
-7. Work on a branch, one concern per commit. Do not rewrite or reformat files you were not asked to touch.
+7. Commit to `main` (Chad builds from `main` and doesn't manage branches), one concern per commit. Do not rewrite or reformat files you were not asked to touch.
 
 ## Chad's preferences
 - Terse, numbers first, practical, action-oriented. Precise, not broad or hedged.
@@ -55,6 +55,7 @@ Each calculator lives in exactly two folders, `App/Features/<Folder>/` and `Pack
 | RentVsBuy | `docs/features/rent-vs-buy.md` | built |
 | RealEstateSnowball | `docs/features/real-estate-snowball.md` | built |
 | Budget | `docs/features/budget.md` | built |
+| Amortization | `docs/features/amortization.md` | built |
 
 Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`).
 When you change a calculator's inputs, outputs, or method, update its doc in the same commit.

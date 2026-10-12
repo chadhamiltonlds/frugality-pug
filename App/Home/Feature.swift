@@ -7,6 +7,7 @@ enum Feature: String, CaseIterable, Identifiable {
     case rentVsBuy
     case netWorth
     case realEstateSnowball
+    case amortization
     case takeHome
     case budget
 
@@ -18,6 +19,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .rentVsBuy: return "Rent vs Buy"
         case .netWorth: return "Net Worth"
         case .realEstateSnowball: return "Property Snowball"
+        case .amortization: return "Amortization"
         case .takeHome: return "Take-Home Pay"
         case .budget: return "Budget"
         }
@@ -29,6 +31,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .rentVsBuy: return "Is buying worth it?"
         case .netWorth: return "Assets minus debts"
         case .realEstateSnowball: return "Rentals that fund rentals"
+        case .amortization: return "What's still owed, and when"
         case .takeHome: return "Gross to net"
         case .budget: return "Monthly income and spending"
         }
@@ -40,6 +43,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .rentVsBuy: return "house.fill"
         case .netWorth: return "scalemass.fill"
         case .realEstateSnowball: return "building.2.fill"
+        case .amortization: return "chart.line.downtrend.xyaxis"
         case .takeHome: return "dollarsign.circle.fill"
         case .budget: return "list.bullet.rectangle.fill"
         }
@@ -52,6 +56,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .rentVsBuy: RentVsBuyView()
         case .netWorth: NetWorthView()
         case .realEstateSnowball: SnowballView()
+        case .amortization: AmortizationView()
         case .takeHome: TakeHomeView()
         case .budget: BudgetView()
         }

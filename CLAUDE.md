@@ -76,7 +76,7 @@ When you change a calculator's inputs, outputs, or method, update its doc in the
 ## Theme (matches Priority Pusher)
 Cream `#FFF4E4`, peach `#F9D3A0`, red accent `#E5484D`, muted brown `#8A6F66`, dark brown text `#2B1E1A`.
 Warm peach gradient backgrounds, white rounded cards, red/orange/tan chips.
-Icon: Priority Pusher's pug, lifted shape-for-shape from its icon (`Assets/source/priority-pusher-icon.png`), peeking over a gold coin engraved with the same pug's head. Built by `Assets/make_icon.py`. Never redraw the pug by hand.
+Icon: the fawn pug from Priority Pusher's icon, used from its vector original (`Assets/source/pug-fawn.svg`, copied unchanged from Platypug), peeking over a gold coin engraved with the same pug's head. Built by `Assets/make_icon.py` (needs `pip install cairosvg`). Never redraw or reshape the pug.
 
 ## Build and accounts
 - GitHub: `chadhamiltonlds/frugality-pug`. Claude's GitHub access follows whichever account Chad's claude.ai GitHub integration is connected to; one account at a time.

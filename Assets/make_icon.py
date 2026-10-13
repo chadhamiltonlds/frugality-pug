@@ -1,200 +1,218 @@
-"""Draws the Frugality Pug app icon as a 1024x1024 PNG.
+"""Draws the Frugality Pug app icon (1024x1024 PNG).
 
-The pug matches the Priority Pusher icon: same colors, thick outlines, floppy ears,
-lashed eyes, blush, gray muzzle, round paws. Here it hugs a money bag instead of peeking over a card.
+The pug is NOT redrawn: its shapes are lifted directly from Priority Pusher's icon
+(Assets/source/priority-pusher-icon.png, 256x256). Each color region (face, ears/muzzle,
+outline, blush, eye shine) is separated, scaled up smoothly, and re-filled with the exact
+Priority Pusher colors. Priority Pusher's card is replaced by a gold coin engraved with
+a pug-head outline traced from the same pug.
 
 Run: python3 Assets/make_icon.py App/Assets.xcassets/AppIcon.appiconset/icon.png
-Needs Pillow. No transparency (App Store requirement); iOS rounds the corners itself.
+Needs Pillow, numpy, scipy. No transparency (App Store requirement).
 """
-import math
+import os
 import sys
 
-from PIL import Image, ImageDraw, ImageFont
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter
+from scipy import ndimage
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SOURCE = os.path.join(HERE, "source", "priority-pusher-icon.png")
 
 SIZE = 1024
-S = 2                      # supersample factor
-W = SIZE * S
+SS = 2                       # supersample factor
+W = SIZE * SS
 
-# Priority Pusher palette (sampled from its icon)
+# Priority Pusher colors (sampled from its icon)
 BG_TOP, BG_BOTTOM = (251, 217, 167), (248, 200, 141)
 INK = (26, 20, 20)
-FACE = (245, 210, 167)
-EAR = (112, 100, 97)
+FAWN = (245, 210, 167)
+GRAY = (112, 100, 97)
 BLUSH = (252, 171, 154)
-WHITE = (255, 255, 255)
+SHINE = (255, 255, 255)
 
-# Money bag
-SACK = (126, 200, 150)
-SACK_SHADE = (98, 176, 126)
-SACK_LIGHT = (176, 228, 192)
-RIBBON = (229, 72, 77)
+# Coin
 GOLD = (247, 201, 72)
-GOLD_DARK = (201, 138, 18)
+GOLD_RING = (233, 178, 46)
+GOLD_ENGRAVE = (196, 132, 20)
 
-OUTLINE = 15               # outline width in 1024-space
-
-img = Image.new("RGB", (W, W))
-d = ImageDraw.Draw(img)
-
-
-def s(v):
-    return round(v * S)
-
-
-def pts(points):
-    return [(s(x), s(y)) for x, y in points]
+# Layout, in source (256px) coordinates
+CARD_EDGE_Y = 118            # Priority Pusher's card top edge; the pug sits on it
+PUG_CENTER_X = 128
+SRC_TOP = 42                 # top of the pug's ears
+COIN_TOP_Y = 112             # coin rim at the center (just under the muzzle)
+COIN_R = 69                  # chosen so the rim passes under both paws
+SCALE = 4.25                 # source px -> output px
+OUT_TOP = 70                 # output y of SRC_TOP
 
 
-def ellipse_points(cx, cy, rx, ry, angle=0.0, n=160, power=2.0):
-    """Ellipse (power=2) or rounded-square superellipse (power>2), optionally rotated (degrees)."""
-    a = math.radians(angle)
-    out = []
-    for i in range(n):
-        t = 2 * math.pi * i / n
-        c, sn = math.cos(t), math.sin(t)
-        x = rx * math.copysign(abs(c) ** (2 / power), c)
-        y = ry * math.copysign(abs(sn) ** (2 / power), sn)
-        out.append((cx + x * math.cos(a) - y * math.sin(a), cy + x * math.sin(a) + y * math.cos(a)))
-    return out
+# --- Source analysis ---------------------------------------------------------
+src = np.asarray(Image.open(SOURCE).convert("RGB")).astype(float)
+lum = 0.299 * src[..., 0] + 0.587 * src[..., 1] + 0.114 * src[..., 2]
 
 
-def shape(points, fill, outline=True):
-    """Filled polygon with a smooth, uniform outline outside its edge."""
-    p = pts(points)
-    if outline:
-        d.line(p + [p[0], p[1]], fill=INK, width=s(OUTLINE * 2), joint="curve")
-        for x, y in p[:: max(1, len(p) // 40)]:
-            r = s(OUTLINE)
-            d.ellipse([x - r, y - r, x + r, y + r], fill=INK)
-    d.polygon(p, fill=fill)
+def dist(color):
+    return np.sqrt(((src - np.array(color, dtype=float)) ** 2).sum(axis=2))
 
 
-def blob(cx, cy, rx, ry, fill, angle=0.0, outline=True, power=2.0):
-    shape(ellipse_points(cx, cy, rx, ry, angle, power=power), fill, outline)
+walls = lum < 75
+labels, _ = ndimage.label(~walls)
+bg_label = labels[0, 0]
+card_label = labels[200, 128]
+
+head_fill = np.zeros(walls.shape, bool)
+paw_fill = np.zeros(walls.shape, bool)
+for index, box in enumerate(ndimage.find_objects(labels), start=1):
+    if index in (bg_label, card_label) or box is None:
+        continue
+    top, bottom = box[0].start, box[0].stop
+    if top >= CARD_EDGE_Y + 3:           # card contents (chips, check circles)
+        continue
+    component = labels == index
+    if top >= CARD_EDGE_Y - 8 and bottom > CARD_EDGE_Y:   # paws hang over the card edge
+        paw_fill |= component
+    else:
+        head_fill |= component
 
 
-def stroke(points, width=10, fill=INK):
-    d.line(pts(points), fill=fill, width=s(width), joint="curve")
-    for x, y in (points[0], points[-1]):
-        r = s(width / 2)
-        d.ellipse([s(x) - r, s(y) - r, s(x) + r, s(y) + r], fill=fill)
+def region(fill, grow):
+    return ndimage.binary_fill_holes(ndimage.binary_dilation(fill, iterations=grow))
 
 
-def arc_points(cx, cy, r, start, end, n=30):
-    return [(cx + r * math.cos(math.radians(start + (end - start) * i / n)),
-             cy + r * math.sin(math.radians(start + (end - start) * i / n))) for i in range(n + 1)]
+head_region = region(head_fill, 2)
+paw_region = region(paw_fill, 2)
+gray_like = dist(GRAY) < 25
+ink_alpha = np.clip((160 - lum) / 125, 0, 1) * ~gray_like
+
+# The muzzle has no outline in Priority Pusher: inside it, keep only true black (nose, mouth),
+# not the darker anti-aliasing at its soft edge.
+muzzle_zone = ndimage.binary_dilation((dist(GRAY) < 20) & (np.mgrid[0:256, 0:256][0] > 85), iterations=2)
+ink_alpha = np.where(muzzle_zone, (lum < 60).astype(float), ink_alpha)
+
+# Eyes: the two solid black blobs in the eye band. Their 1px lashes can't survive scaling,
+# so they are cut from the ink mask here and redrawn as strokes in the same spots.
+yy, xx = np.mgrid[0:256, 0:256]
+eye_labels, eye_count = ndimage.label((lum < 60) & (yy > 65) & (yy < 92))
+EYES = []
+for index in range(1, eye_count + 1):
+    blob = eye_labels == index
+    rows_, cols_ = np.where(blob)
+    height, width = np.ptp(rows_) + 1, np.ptp(cols_) + 1
+    round_enough = 0.7 <= width / height <= 1.4
+    if 20 <= blob.sum() <= 200 and round_enough and abs(cols_.mean() - PUG_CENTER_X) < 45:
+        cy_, cx_ = ndimage.center_of_mass(blob)
+        EYES.append((cx_, cy_, float(np.sqrt(blob.sum() / np.pi))))
+for ex, ey, er in EYES:
+    lash_band = (np.abs(xx - ex) < er * 1.9) & (yy < ey - er * 0.75) & (yy > ey - er * 2.6)
+    ink_alpha[lash_band] = 0
+
+layers_head = [
+    (FAWN, head_region.astype(float)),
+    (GRAY, ndimage.binary_opening((dist(GRAY) < 20) & head_region).astype(float)),
+    (BLUSH, ((dist(BLUSH) < 22) & head_region).astype(float)),
+    (INK, ink_alpha * ndimage.binary_dilation(head_region, iterations=1)),
+    (SHINE, ndimage.binary_dilation((lum > 238) & head_region).astype(float)),
+]
+INK_THRESHOLD = 0.3
+layers_paws = [
+    (FAWN, paw_region.astype(float)),
+    (INK, ink_alpha * ndimage.binary_dilation(paw_region, iterations=1)),
+]
 
 
-# --- Background -------------------------------------------------------------
+# --- Rendering helpers --------------------------------------------------------
+def to_output(mask, scale=SCALE, src_anchor=(PUG_CENTER_X, SRC_TOP), out_anchor=(SIZE / 2, OUT_TOP), threshold=0.5):
+    """Scale a source-space mask into supersampled output space with smooth edges.
+
+    The mask is softened at source resolution first (removes pixel stair-steps and stray
+    anti-aliasing specks), scaled up, then cut at `threshold` for a crisp, curved edge.
+    """
+    soft = ndimage.gaussian_filter(mask.astype(float), sigma=0.75)
+    image = Image.fromarray(np.clip(soft * 255, 0, 255).astype(np.uint8), "L")
+    k = 1 / (scale * SS)
+    a, c = k, src_anchor[0] - out_anchor[0] * SS * k
+    e, f = k, src_anchor[1] - out_anchor[1] * SS * k
+    big = image.transform((W, W), Image.AFFINE, (a, 0, c, 0, e, f), resample=Image.BICUBIC)
+    big = big.filter(ImageFilter.GaussianBlur(scale * SS * 0.25))
+    return big.point(lambda v: 255 if v >= threshold * 255 else 0)
+
+
+def paint(canvas, color, mask_image):
+    canvas.paste(Image.new("RGB", canvas.size, color), (0, 0), mask_image)
+
+
+def out_xy(x, y):
+    """Source coordinates -> supersampled output coordinates."""
+    return ((SIZE / 2 + (x - PUG_CENTER_X) * SCALE) * SS, (OUT_TOP + (y - SRC_TOP) * SCALE) * SS)
+
+
+# --- Compose -----------------------------------------------------------------
+canvas = Image.new("RGB", (W, W))
+draw = ImageDraw.Draw(canvas)
 for y in range(W):
     t = y / (W - 1)
-    d.line([(0, y), (W, y)], fill=tuple(round(BG_TOP[i] + (BG_BOTTOM[i] - BG_TOP[i]) * t) for i in range(3)))
+    draw.line([(0, y), (W, y)], fill=tuple(round(BG_TOP[i] + (BG_BOTTOM[i] - BG_TOP[i]) * t) for i in range(3)))
 
-# --- Layout -----------------------------------------------------------------
-# Like Priority Pusher's pug peeking over a card: here the pug hugs a money bag,
-# chin above its ruffle, paws on its shoulders. Draw order: pug head, bag, paws.
-HX, HY, HW = 512, 310, 540   # head center and width
-u = HW / 570                 # scale from the reference drawing
-BX, BY, R = 512, 790, 200    # bag body center and radius
+for color, mask in layers_head:
+    paint(canvas, color, to_output(mask, threshold=INK_THRESHOLD if color == INK else 0.5))
 
+# Lashes: three short strokes fanning up from each eye, as in Priority Pusher
+for ex, ey, er in EYES:
+    for angle in (-125, -90, -55):
+        a = np.radians(angle)
+        x0, y0 = out_xy(ex + er * 0.95 * np.cos(a), ey + er * 0.95 * np.sin(a))
+        x1, y1 = out_xy(ex + er * 1.6 * np.cos(a), ey + er * 1.6 * np.sin(a))
+        width = 1.35 * SCALE * SS
+        draw.line([(x0, y0), (x1, y1)], fill=INK, width=round(width))
+        for px, py in ((x0, y0), (x1, y1)):
+            draw.ellipse([px - width / 2, py - width / 2, px + width / 2, py + width / 2], fill=INK)
 
-def draw_head():
-    shape(ellipse_points(HX, HY, 272 * u, 242 * u, power=2.5), FACE)
-    # one floppy ear per side, over the head's top corners, flopping outward
-    blob(HX - 240 * u, HY - 112 * u, 82 * u, 128 * u, EAR, angle=38)
-    blob(HX + 240 * u, HY - 112 * u, 82 * u, 128 * u, EAR, angle=-38)
+# Coin, in front of the pug's chin
+cx, cy = out_xy(PUG_CENTER_X, COIN_TOP_Y + COIN_R)
+r = COIN_R * SCALE * SS
+line = 3 * SCALE * SS                     # same weight as Priority Pusher's outlines
+draw.ellipse([cx - r - line / 2, cy - r - line / 2, cx + r + line / 2, cy + r + line / 2], fill=INK)
+draw.ellipse([cx - r + line / 2, cy - r + line / 2, cx + r - line / 2, cy + r - line / 2], fill=GOLD)
+ring = r * 0.84
+draw.ellipse([cx - ring, cy - ring, cx + ring, cy + ring], outline=GOLD_RING, width=round(line * 0.55))
 
-    # muzzle, blush
-    blob(HX, HY + 95 * u, 140 * u, 62 * u, EAR, outline=False)
-    blob(HX - 182 * u, HY + 72 * u, 46 * u, 30 * u, BLUSH, outline=False)
-    blob(HX + 182 * u, HY + 72 * u, 46 * u, 30 * u, BLUSH, outline=False)
-
-    # eyes with highlight and lashes
-    for ex in (HX - 118 * u, HX + 118 * u):
-        ey = HY + 18 * u
-        blob(ex, ey, 36 * u, 38 * u, INK, outline=False)
-        blob(ex - 9 * u, ey - 11 * u, 12 * u, 12 * u, WHITE, outline=False)
-        for ang in (-120, -90, -60):
-            a = math.radians(ang)
-            stroke([(ex + 36 * u * math.cos(a), ey + 38 * u * math.sin(a)),
-                    (ex + 58 * u * math.cos(a), ey + 60 * u * math.sin(a))], width=7)
-
-    # nose and "w" mouth
-    shape([(HX - 26 * u, HY + 68 * u), (HX + 26 * u, HY + 68 * u), (HX, HY + 94 * u)], INK, outline=False)
-    blob(HX, HY + 72 * u, 26 * u, 10 * u, INK, outline=False)
-    stroke([(HX, HY + 90 * u), (HX, HY + 108 * u)], width=8)
-    stroke(arc_points(HX - 20 * u, HY + 102 * u, 20 * u, 20, 160), width=8)
-    stroke(arc_points(HX + 20 * u, HY + 102 * u, 20 * u, 20, 160), width=8)
-
-
-def quad(p0, p1, p2, n=24):
-    """Points along a quadratic Bezier curve (excluding the start point)."""
-    return [((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * p1[0] + t * t * p2[0],
-             (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * p1[1] + t * t * p2[1])
-            for t in (i / n for i in range(1, n + 1))]
+# Engraving: the same pug's head, as even-width dark-gold lines (outline, ear folds, muzzle)
+# with filled eyes and nose, centered on the coin.
+silhouette = head_region.copy()
+silhouette[CARD_EDGE_Y - 1:, :] = False   # the card hid the chin; close it with a rounded jaw
+silhouette |= (((xx - PUG_CENTER_X) / 46.0) ** 2 + ((yy - (CARD_EDGE_Y - 14)) / 16.0) ** 2) <= 1
+silhouette = ndimage.binary_fill_holes(silhouette)
+cols = np.where(silhouette.any(axis=0))[0]
+rows = np.where(silhouette.any(axis=1))[0]
+engrave_scale = float((r / SS * 1.05) / (cols.max() - cols.min() + 1))
+engrave_src = (float(cols.min() + cols.max()) / 2, float(rows.min() + rows.max()) / 2)
+engrave_out = (float(cx / SS), float(cy / SS + r / SS * 0.08))
+stroke = 5.5 * SS                          # engraved line width (output px x SS)
 
 
-def sack_outline():
-    """Classic money bag silhouette: round body, pinched neck, ruffled top."""
-    body = [(BX + R * math.cos(math.radians(a)), BY + 0.95 * R * math.sin(math.radians(a)))
-            for a in range(-55, 236, 3)]                        # upper right -> bottom -> upper left
-    left_shoulder = body[-1]
-    pts_ = list(body)
-    pinch_l = (BX - 0.24 * R, BY - 1.06 * R)
-    flare_l = (BX - 0.52 * R, BY - 1.32 * R)
-    pts_ += quad(left_shoulder, (BX - 0.30 * R, BY - 0.86 * R), pinch_l)
-    pts_ += quad(pinch_l, (BX - 0.22 * R, BY - 1.22 * R), flare_l)
-    # three rounded ruffle bumps across the top
-    xs = [BX - 0.52 * R, BX - 0.17 * R, BX + 0.17 * R, BX + 0.52 * R]
-    for x0, x1 in zip(xs, xs[1:]):
-        pts_ += quad((x0, BY - 1.32 * R), ((x0 + x1) / 2, BY - 1.62 * R), (x1, BY - 1.32 * R))
-    pinch_r = (BX + 0.24 * R, BY - 1.06 * R)
-    right_shoulder = body[0]
-    pts_ += quad((BX + 0.52 * R, BY - 1.32 * R), (BX + 0.22 * R, BY - 1.22 * R), pinch_r)
-    pts_ += quad(pinch_r, (BX + 0.30 * R, BY - 0.86 * R), right_shoulder)
-    return pts_
+def engrave_mask(mask):
+    return to_output(mask.astype(float), scale=engrave_scale, src_anchor=engrave_src, out_anchor=engrave_out)
 
 
-def draw_bag():
-    shape(sack_outline(), SACK)
-    blob(BX + 40, BY + 85, 118, 70, SACK_SHADE, angle=-10, outline=False)   # soft shadow
-    blob(BX - 125, BY - 40, 30, 62, SACK_LIGHT, angle=18, outline=False)    # shine
-
-    # ribbon around the neck with a bow
-    NY = BY - 1.08 * R
-    shape([(BX - 0.40 * R, NY - 16), (BX + 0.40 * R, NY - 16), (BX + 0.38 * R, NY + 18), (BX - 0.38 * R, NY + 18)], RIBBON)
-    blob(BX - 48, NY, 42, 25, RIBBON, angle=-20)
-    blob(BX + 48, NY, 42, 25, RIBBON, angle=20)
-    blob(BX, NY + 2, 20, 20, RIBBON)
-
-    # gold coin with $ on the front
-    CX, CY = BX, BY + 25
-    blob(CX, CY, 100, 100, GOLD)
-    d.ellipse([s(CX - 75), s(CY - 75), s(CX + 75), s(CY + 75)], outline=GOLD_DARK, width=s(7))
-    try:
-        font = ImageFont.truetype("DejaVuSans-Bold.ttf", s(130))
-    except OSError:
-        font = ImageFont.load_default()
-    d.text((s(CX), s(CY + 4)), "$", font=font, fill=GOLD_DARK, anchor="mm")
-
-    # coin stacks at the base
-    for x, n in ((BX + 290, 3), (BX - 285, 2)):
-        for i in range(n):
-            blob(x, BY + 165 - 33 * i, 62, 24, GOLD)
+def outline_of(mask_image):
+    """Inner outline of a filled mask, `stroke` wide (erosion approximated by blur + high cut)."""
+    eroded = mask_image.filter(ImageFilter.GaussianBlur(stroke * 0.6)).point(lambda v: 255 if v >= 250 else 0)
+    return Image.fromarray(np.where((np.asarray(mask_image) > 0) & (np.asarray(eroded) == 0), 255, 0).astype(np.uint8), "L")
 
 
-def draw_paws():
-    # resting on the bag's shoulders
-    for px in (BX - 0.66 * R, BX + 0.66 * R):
-        py = BY - 0.80 * R
-        blob(px, py, 58 * u, 50 * u, FACE)
-        for dx in (-18, 0, 18):
-            stroke([(px + dx * u, py + 24 * u), (px + dx * u, py + 42 * u)], width=7)
+ears = ndimage.binary_opening((dist(GRAY) < 20) & head_region & (yy < 85))
+nose = (lum < 60) & muzzle_zone & (yy < 98)
+muzzle = ndimage.binary_opening((dist(GRAY) < 20) & head_region & (yy > 85))
+muzzle = ndimage.binary_fill_holes(ndimage.binary_closing(muzzle | nose, iterations=2))
+for shape in (silhouette, ears, muzzle):
+    paint(canvas, GOLD_ENGRAVE, outline_of(engrave_mask(shape)))
+paint(canvas, GOLD_ENGRAVE, engrave_mask(ndimage.binary_dilation(nose)))
+for ex, ey, er in EYES:
+    eye = ((xx - ex) ** 2 + (yy - ey) ** 2) <= er ** 2
+    paint(canvas, GOLD_ENGRAVE, engrave_mask(eye))
 
+for color, mask in layers_paws:
+    paint(canvas, color, to_output(mask, threshold=INK_THRESHOLD if color == INK else 0.5))
 
-draw_head()
-draw_bag()
-draw_paws()
-
-out = img.resize((SIZE, SIZE), Image.LANCZOS)
+out = canvas.resize((SIZE, SIZE), Image.LANCZOS)
 out.save(sys.argv[1] if len(sys.argv) > 1 else "icon.png")

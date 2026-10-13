@@ -39,7 +39,7 @@ Packages/FrugalityCore/  Swift package: all calculation logic, no UI/persistence
   Sources/FrugalityCore/Shared/   money/rate helpers shared by features
   Sources/FrugalityCore/Resources/tax/<year>/   federal and per-state tax data (JSON)
   Tests/FrugalityCoreTests/       unit tests, mirrors Sources layout
-Assets/                icon generator (make_icon.py); the icon PNG lives in App/Assets.xcassets
+Assets/                icon generator (make_icon.py) and its source art (source/); the icon PNG lives in App/Assets.xcassets
 docs/                  features/<name>.md per calculator, features/shared.md, tax-data.md
 ```
 
@@ -76,7 +76,7 @@ When you change a calculator's inputs, outputs, or method, update its doc in the
 ## Theme (matches Priority Pusher)
 Cream `#FFF4E4`, peach `#F9D3A0`, red accent `#E5484D`, muted brown `#8A6F66`, dark brown text `#2B1E1A`.
 Warm peach gradient backgrounds, white rounded cards, red/orange/tan chips.
-Icon: Priority Pusher's fawn pug hugging a green money bag, on the peach gradient. Drawn by `Assets/make_icon.py`.
+Icon: Priority Pusher's pug, lifted shape-for-shape from its icon (`Assets/source/priority-pusher-icon.png`), peeking over a gold coin engraved with the same pug's head. Built by `Assets/make_icon.py`. Never redraw the pug by hand.
 
 ## Build and accounts
 - GitHub: `chadhamiltonlds/frugality-pug`. Claude's GitHub access follows whichever account Chad's claude.ai GitHub integration is connected to; one account at a time.

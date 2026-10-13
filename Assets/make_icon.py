@@ -7,7 +7,9 @@ the coin is engraved with the same pug's head (its own line art, recolored in go
 
 Everything is composed as one SVG and rendered once at full size, so edges stay crisp.
 
-Run: python3 Assets/make_icon.py App/Assets.xcassets/AppIcon.appiconset/icon.png [--svg]
+Run: python3 Assets/make_icon.py App/Assets.xcassets/AppIcon.appiconset/icon.png \
+       --logo=App/Assets.xcassets/Logo.imageset/logo.png [--svg]
+(--logo also writes the small copy shown in the home screen's top-right corner.)
 Needs: pip install cairosvg pillow
 """
 import io
@@ -138,5 +140,8 @@ png = cairosvg.svg2png(bytestring=svg.encode(), output_width=SIZE, output_height
 out = Image.open(io.BytesIO(png)).convert("RGB")      # no alpha channel for the App Store
 target = next((a for a in sys.argv[1:] if not a.startswith("--")), "icon.png")
 out.save(target)
+for arg in sys.argv[1:]:
+    if arg.startswith("--logo="):
+        out.resize((256, 256), Image.LANCZOS).save(arg.split("=", 1)[1])
 if "--svg" in sys.argv:
     open(os.path.splitext(target)[0] + ".svg", "w").write(svg)

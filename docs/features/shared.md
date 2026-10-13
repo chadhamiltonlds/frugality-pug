@@ -3,7 +3,7 @@
 ## Core (`Packages/FrugalityCore/Sources/FrugalityCore/Shared/`)
 - `Decimal.roundedToCents()`, `Decimal.rounded(toPlaces:mode:)` (Decimal+Rounding.swift)
 - `Decimal.clamped(to:)`, `Decimal.asSafeRate` (>= -99%), `Int.clamped(_:_:)` (Clamping.swift)
-- `Mortgage.monthlyPayment(principal:annualRate:years:)` (term clamped to 1...50 years), `Mortgage.step(balance:annualRate:payment:)` (Mortgage.swift). Used by RentVsBuy, RealEstateSnowball, and Amortization.
+- `Mortgage.monthlyPayment(principal:annualRate:years:)` (term clamped to 1...50 years), `Mortgage.step(balance:annualRate:payment:)` (Mortgage.swift). Used by RentVsBuy, RealEstateSnowball, Amortization, and RentalAnalysis.
 - `PayFrequency` (monthly / semiMonthly / biweekly) used by TakeHome only. Budget has its own `BudgetPaySchedule` (no biweekly).
 - `FilingStatus`, `TaxBracket` + `progressiveTax`, `KeyedDecodingContainer.decodeDecimal` (TakeHome tax data).
 - Test helpers (`Tests/FrugalityCoreTests/TestSupport.swift`): `dec("1.23")` exact Decimal, `assertClose(a, b, tolerance:)` for long simulations, `Fixtures.data` (tax data).

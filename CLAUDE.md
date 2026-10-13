@@ -1,6 +1,6 @@
 # Frugality Pug
 
-Native SwiftUI iPhone personal-finance app (budget, retirement, net worth, real estate, take-home pay, loan amortization).
+Native SwiftUI iPhone personal-finance app (budget, retirement, net worth, real estate, rental analysis, take-home pay, loan amortization).
 On-device only: no accounts, no cloud, no analytics, no ads. Owner: Chad.
 Chad has a PC and an iPhone, no Mac. Builds run on Codemagic and ship through TestFlight.
 The Linux container where Claude works has no Swift toolchain, so tests and builds run in Codemagic CI, not locally.
@@ -56,8 +56,9 @@ Each calculator lives in exactly two folders, `App/Features/<Folder>/` and `Pack
 | RealEstateSnowball | `docs/features/real-estate-snowball.md` | built |
 | Budget | `docs/features/budget.md` | built |
 | Amortization | `docs/features/amortization.md` | built |
+| RentalAnalysis | `docs/features/rental-analysis.md` | built |
 
-Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`).
+Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`; logo top-right from `Logo.imageset`, written by `make_icon.py --logo=`).
 When you change a calculator's inputs, outputs, or method, update its doc in the same commit.
 
 ## Architecture rules (what keeps changes safe)

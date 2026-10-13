@@ -15,6 +15,7 @@ struct StoreKey {
     static let snowball = StoreKey(name: "real-estate-snowball", version: 1)
     static let budget = StoreKey(name: "budget", version: 1)
     static let amortization = StoreKey(name: "amortization", version: 1)
+    static let rentalAnalysis = StoreKey(name: "rental-analysis", version: 1)
 }
 
 /// The only place the app reads and writes saved data: one small JSON file per key in Application Support.

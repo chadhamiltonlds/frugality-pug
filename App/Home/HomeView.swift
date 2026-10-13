@@ -13,12 +13,22 @@ struct HomeView: View {
                 ThemedBackground()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 18) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Frugality Pug")
-                                .font(.system(.largeTitle, design: .rounded).weight(.heavy))
-                                .foregroundStyle(Theme.ink)
-                            Text("Plan it. Budget it. Keep it.")
-                                .foregroundStyle(Theme.muted)
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Frugality Pug")
+                                    .font(.system(.largeTitle, design: .rounded).weight(.heavy))
+                                    .foregroundStyle(Theme.ink)
+                                Text("Plan it. Budget it. Keep it.")
+                                    .foregroundStyle(Theme.muted)
+                            }
+                            Spacer()
+                            Image("Logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                                .shadow(color: Theme.ink.opacity(0.12), radius: 4, y: 2)
+                                .accessibilityHidden(true)
                         }
                         LazyVGrid(columns: columns, spacing: 14) {
                             ForEach(order) { feature in

@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 struct HomeView: View {
     @State private var order: [Feature] = Feature.ordered(savedIDs: JSONStore.load([String].self, key: .homeOrder) ?? [])
     @State private var dragging: Feature?
+    @State private var showingAbout = false
 
     private let columns = [GridItem(.flexible(), spacing: 14), GridItem(.flexible(), spacing: 14)]
 
@@ -49,6 +50,20 @@ struct HomeView: View {
                             .font(.footnote)
                             .foregroundStyle(Theme.muted)
                             .frame(maxWidth: .infinity)
+                        VStack(spacing: 8) {
+                            Text("AI-built estimates for fun and planning. Not financial advice.")
+                                .font(.footnote)
+                                .foregroundStyle(Theme.muted)
+                                .multilineTextAlignment(.center)
+                            Button {
+                                showingAbout = true
+                            } label: {
+                                Label("About & disclaimer", systemImage: "info.circle")
+                                    .font(.footnote.weight(.semibold))
+                            }
+                            .tint(Theme.accent)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                     .padding(16)
                 }
@@ -57,6 +72,9 @@ struct HomeView: View {
                 feature.destination
             }
             .toolbar(.hidden, for: .navigationBar)
+            .sheet(isPresented: $showingAbout) {
+                AboutView()
+            }
             .onChange(of: order) { _, newOrder in
                 JSONStore.save(newOrder.map(\.rawValue), key: .homeOrder)
             }

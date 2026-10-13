@@ -58,7 +58,7 @@ Each calculator lives in exactly two folders, `App/Features/<Folder>/` and `Pack
 | Amortization | `docs/features/amortization.md` | built |
 | RentalAnalysis | `docs/features/rental-analysis.md` | built |
 
-Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`; logo top-right from `Logo.imageset`, written by `make_icon.py --logo=`).
+Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`; logo top-right from `Logo.imageset`, written by `make_icon.py --logo=`; footer disclaimer line + About & disclaimer sheet in `AboutView.swift`).
 When you change a calculator's inputs, outputs, or method, update its doc in the same commit.
 
 ## Architecture rules (what keeps changes safe)

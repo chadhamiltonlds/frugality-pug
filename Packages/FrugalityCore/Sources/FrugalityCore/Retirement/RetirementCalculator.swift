@@ -13,6 +13,8 @@ public struct RetirementInput: Codable, Equatable {
     public var inflationRate: Decimal
     /// Share of the balance withdrawn per year in retirement, e.g. 0.04.
     public var withdrawalRate: Decimal
+    /// Optional Social Security estimate. Optional so inputs saved before it existed still load.
+    public var socialSecurity: SocialSecurityInput?
 
     public init(
         currentAge: Int = 30,
@@ -23,7 +25,8 @@ public struct RetirementInput: Codable, Equatable {
         contributionGrowthRate: Decimal = Decimal(2) / 100,
         annualReturn: Decimal = Decimal(7) / 100,
         inflationRate: Decimal = Decimal(3) / 100,
-        withdrawalRate: Decimal = Decimal(4) / 100
+        withdrawalRate: Decimal = Decimal(4) / 100,
+        socialSecurity: SocialSecurityInput? = nil
     ) {
         self.currentAge = currentAge
         self.retirementAge = retirementAge
@@ -34,6 +37,7 @@ public struct RetirementInput: Codable, Equatable {
         self.annualReturn = annualReturn
         self.inflationRate = inflationRate
         self.withdrawalRate = withdrawalRate
+        self.socialSecurity = socialSecurity
     }
 }
 

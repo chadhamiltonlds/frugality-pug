@@ -1,7 +1,8 @@
 # Retirement
-Files: `App/Features/Retirement/`, `FrugalityCore/Retirement/RetirementCalculator.swift`, tests `RetirementCalculatorTests`. Save key: `.retirement`.
+Files: `App/Features/Retirement/`, `FrugalityCore/Retirement/` (RetirementCalculator.swift, SocialSecurity.swift), data `Resources/tax/<year>/social-security.json`, tests `RetirementCalculatorTests`, `SocialSecurityTests`. Save key: `.retirement`.
 
-- Input `RetirementInput`: current age, retirement age, current savings, monthly contribution, employer monthly contribution, yearly contribution growth, yearly return, inflation, withdrawal rate.
+- Input `RetirementInput`: current age, retirement age, current savings, monthly contribution, employer monthly contribution, yearly contribution growth, yearly return, inflation, withdrawal rate; optional `socialSecurity: SocialSecurityInput?` (on/off, typical yearly earnings in today's dollars, years worked, claim age). Optional so older saved inputs still decode.
 - Method: month by month, balance grows by return/12, then that month's contribution is added. Contributions rise once a year. Today's dollars = balance / (1 + inflation)^years. Ages clamped 0...120; retirement age below current age gives no projection years.
 - Output `RetirementResult`: yearly rows (age, balance, today's dollars, total contributed), final balance both ways, total contributed, growth, yearly/monthly income at the withdrawal rate.
-- Screen: inputs, results, two-line chart (future vs today's dollars), yearly table.
+- Social Security (optional): AIME = min(earnings, wage base) x min(years, 35) / 35 / 12, rounded down to the dollar; PIA from the year's bend points (90/32/15%), rounded down to the dime; full retirement age from birth year (= data year - current age); early claiming -5/9% per month for 36 months then -5/12%, late +2/3% per month to 70; benefit rounded down to the dollar; under 10 years or $0 earnings = not eligible. Matches SSA's 2026 worked example. Total monthly income = withdrawals + benefit (`RetirementCalculator.totalMonthlyIncome`).
+- Screen: inputs, Social Security card (optional), results, two-line chart (future vs today's dollars), yearly table.

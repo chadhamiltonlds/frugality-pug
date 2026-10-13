@@ -1,0 +1,21 @@
+{
+  "year": 2026,
+  "bendPoints": [1286, 7749],
+  "factors": [0.9, 0.32, 0.15],
+  "wageBase": 184500,
+  "computationYears": 35,
+  "minimumYears": 10,
+  "earliestClaimAge": 62,
+  "latestClaimAge": 70,
+  "earlyReduction": { "firstMonths": 36, "firstRate": [5, 900], "laterRate": [5, 1200] },
+  "delayedCreditPerMonth": [2, 300],
+  "fullRetirementAge": [
+    { "bornFrom": 1960, "months": 804 },
+    { "bornFrom": 1959, "months": 802 },
+    { "bornFrom": 1958, "months": 800 },
+    { "bornFrom": 1957, "months": 798 },
+    { "bornFrom": 1956, "months": 796 },
+    { "bornFrom": 1955, "months": 794 },
+    { "bornFrom": 0, "months": 792 }
+  ]
+}

@@ -6,6 +6,7 @@ Load with `TaxYearData.load(year:)`. `validate()` runs on load and rejects unsor
 ## Sources (checked Oct 2026)
 - Federal brackets, standard deductions: IRS inflation adjustments for 2026 (Rev. Proc. 2025-32), via CPA Practice Advisor and pennycalc.com.
 - Social Security wage base $184,500, 401(k) $24,500, HSA $4,400/$8,750, child tax credit $2,200, additional Medicare thresholds: everwisecu.com 2026 tax tables.
+- Social Security benefit formula (`social-security.json`): SSA "Automatic Determinations" (2026 bend points $1,286 / $7,749) and "Benefit Calculation Examples for Workers Retiring in 2026".
 - State brackets, standard deductions, exemptions: Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (rates as of Jan 1, 2026).
 
 ## How to update

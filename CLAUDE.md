@@ -59,7 +59,7 @@ Each calculator lives in exactly two folders, `App/Features/<Folder>/` and `Pack
 | Amortization | `docs/features/amortization.md` | built |
 | RentalAnalysis | `docs/features/rental-analysis.md` | built |
 
-Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`; logo top-right from `Logo.imageset`, written by `make_icon.py --logo=`; footer disclaimer line + About & disclaimer sheet in `AboutView.swift`).
+Home screen: `App/Home/` (tile list in `Feature.swift`; tiles are fixed-size and reorder by press-and-hold; order saved under `StoreKey.homeOrder`; pug head top-right from `PugHead.imageset`, written by `make_icon.py --head=` (About sheet shows the icon from `Logo.imageset`, `--logo=`); footer disclaimer line + About & disclaimer sheet in `AboutView.swift`).
 When you change a calculator's inputs, outputs, or method, update its doc in the same commit.
 
 ## Architecture rules (what keeps changes safe)
@@ -77,7 +77,7 @@ When you change a calculator's inputs, outputs, or method, update its doc in the
 
 ## Theme (matches Priority Pusher)
 Cream `#FFF4E4`, peach `#F9D3A0`, red accent `#E5484D`, muted brown `#8A6F66`, dark brown text `#2B1E1A`.
-Warm peach gradient backgrounds, white rounded cards, red/orange/tan chips.
+Copy Priority Pusher's look (`chadhamiltonlds/priority-pusher`, `Shared/Theme/Theme.swift` + `App/Views/BrandViews.swift`): cream → apricot gradient, cream cards with a 2.5pt ink outline and 10pt corners, Fredoka font everywhere (`docs/fonts.md`), ink-outlined square tags in the red → tan ramp, dashed ruled lines, native controls tinted red.
 Icon: the fawn pug from Priority Pusher's icon, used from its vector original (`Assets/source/pug-fawn.svg`, copied unchanged from Platypug), peeking over a gold coin engraved with the same pug's head. Built by `Assets/make_icon.py` (needs `pip install cairosvg`). Never redraw or reshape the pug.
 
 ## Build and accounts

@@ -51,10 +51,10 @@ struct RentalAnalysisView: View {
         return SectionCard(title: "Verdict") {
             HStack(spacing: 10) {
                 Image(systemName: style.symbol)
-                    .font(.title)
+                    .font(Theme.font(.title))
                     .foregroundStyle(style.color)
                 Text(style.title)
-                    .font(.system(.title2, design: .rounded).weight(.heavy))
+                    .font(Theme.font(.title2, weight: .bold))
                     .foregroundStyle(Theme.ink)
             }
             HeadlineNumber(
@@ -76,7 +76,7 @@ struct RentalAnalysisView: View {
                         Text(Self.name(check.kind))
                             .foregroundStyle(Theme.ink)
                         Text("Target \(Self.format(check.target, kind: check.kind))")
-                            .font(.caption)
+                            .font(Theme.font(.caption))
                             .foregroundStyle(Theme.muted)
                     }
                     Spacer()
@@ -99,7 +99,7 @@ struct RentalAnalysisView: View {
             ResultRow(label: "Net operating income", value: r.netOperatingIncome.asCurrency, emphasized: true)
             ResultRow(label: "Mortgage payment", value: (-r.monthlyMortgagePayment).asCurrency)
             ResultRow(label: "Cash flow", value: r.cashFlow.asCurrency, emphasized: true)
-            Divider()
+            RuledLine()
             ResultRow(label: "Cash you put in", value: r.cashInvested.asWholeCurrency)
             ResultRow(label: "Loan", value: r.loanAmount.asWholeCurrency)
             if let grm = r.grossRentMultiplier {
@@ -108,14 +108,14 @@ struct RentalAnalysisView: View {
             if let occupancy = r.breakEvenOccupancy {
                 ResultRow(label: "Break-even occupancy", value: occupancy.asPercent)
             }
-            Divider()
+            RuledLine()
             ResultRow(label: "Year 1 loan paydown", value: r.firstYearPrincipalPaydown.asWholeCurrency)
             ResultRow(label: "Year 1 appreciation", value: r.firstYearAppreciation.asWholeCurrency)
             if let total = r.firstYearTotalReturn {
                 ResultRow(label: "Year 1 total return", value: total.asPercent, emphasized: true)
             }
             Text("Total return counts cash flow, loan paydown and appreciation against the cash you put in. Income taxes and depreciation aren't included.")
-                .font(.caption)
+                .font(Theme.font(.caption))
                 .foregroundStyle(Theme.muted)
         }
     }

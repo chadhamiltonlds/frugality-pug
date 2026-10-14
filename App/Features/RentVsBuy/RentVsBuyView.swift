@@ -53,13 +53,13 @@ struct RentVsBuyView: View {
                 footnote: result.breakEvenYear.map { "Buying pulls ahead in year \($0)" }
                     ?? "Buying doesn't pull ahead within \(years) years"
             )
-            Divider()
+            RuledLine()
             ResultRow(label: "Cash to buy (down + closing)", value: result.upfrontCashToBuy.asWholeCurrency)
             ResultRow(label: "Mortgage payment", value: result.monthlyMortgagePayment.asCurrency)
             ResultRow(label: "First month owning, all in", value: result.firstMonthOwnerCost.asCurrency)
             ResultRow(label: "First month renting", value: result.firstMonthRenterCost.asCurrency)
             Text("Whoever spends less each month invests the difference. Taxes, PMI and refinancing aren't included.")
-                .font(.caption)
+                .font(Theme.font(.caption))
                 .foregroundStyle(Theme.muted)
         }
     }

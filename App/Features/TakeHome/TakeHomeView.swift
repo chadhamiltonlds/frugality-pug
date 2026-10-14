@@ -55,7 +55,7 @@ struct TakeHomeView: View {
     private var deductionsCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Deductions (per year)")
-                .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                .font(Theme.font(.headline, weight: .semibold))
                 .foregroundStyle(Theme.muted)
             MoneyField(title: "401(k) / 403(b)", value: $model.input.preTax401kAnnual)
             MoneyField(title: "Health, HSA, FSA (pre-tax)", value: $model.input.preTaxSection125Annual)
@@ -75,16 +75,16 @@ struct TakeHomeView: View {
         } else if let result = model.result {
             VStack(alignment: .leading, spacing: 10) {
                 Text(model.input.payFrequency == .monthly ? "Take-home per month" : "Take-home per paycheck")
-                    .font(.footnote)
+                    .font(Theme.font(.footnote))
                     .foregroundStyle(Theme.muted)
                 Text(result.netPerPeriod.asCurrency)
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+                    .font(Theme.font(size: 40, weight: .bold))
                     .foregroundStyle(Theme.positive)
                 Text("\(result.netAnnual.asCurrency) per year · \(result.effectiveTaxRate.asPercent) taxes")
-                    .font(.footnote)
+                    .font(Theme.font(.footnote))
                     .foregroundStyle(Theme.muted)
 
-                Divider()
+                RuledLine()
 
                 row("Gross", result.grossAnnual)
                 if result.preTax401k > 0 { row("401(k)", -result.preTax401k) }
@@ -95,12 +95,12 @@ struct TakeHomeView: View {
                 if result.additionalMedicare > 0 { row("Additional Medicare", -result.additionalMedicare) }
                 row("\(result.stateName) income tax", -result.stateIncomeTax)
                 if result.postTaxDeductions > 0 { row("Other after-tax", -result.postTaxDeductions) }
-                Divider()
+                RuledLine()
                 row("Net per year", result.netAnnual, emphasized: true)
 
                 if let note = result.stateNote {
                     Text(note)
-                        .font(.caption)
+                        .font(Theme.font(.caption))
                         .foregroundStyle(Theme.muted)
                 }
             }
@@ -118,13 +118,13 @@ struct TakeHomeView: View {
             Spacer()
             Text(amount.asCurrency)
         }
-        .font(emphasized ? .body.weight(.bold) : .body)
+        .font(Theme.font(.body, weight: emphasized ? .semibold : .regular))
         .foregroundStyle(Theme.ink)
     }
 
     private var footnote: some View {
         Text("\(String(model.taxYear)) estimate. Excludes local taxes, state payroll taxes such as SDI, and itemized deductions. Head of household uses single-filer state figures.")
-            .font(.caption)
+            .font(Theme.font(.caption))
             .foregroundStyle(Theme.muted)
             .frame(maxWidth: .infinity, alignment: .leading)
     }

@@ -11,14 +11,14 @@ struct BudgetView: View {
             SectionCard(title: "Income (take-home)") {
                 ForEach($model.input.incomes) { $income in
                     IncomeRow(income: $income) { model.deleteIncome(income.id) }
-                    Divider()
+                    RuledLine()
                 }
                 AddRowButton(title: "Add income") { model.addIncome() }
             }
             SectionCard(title: "Monthly expenses") {
                 ForEach($model.input.expenses) { $expense in
                     ExpenseRow(expense: $expense, categories: model.categories) { model.deleteExpense(expense.id) }
-                    Divider()
+                    RuledLine()
                 }
                 AddRowButton(title: "Add expense") { model.addExpense() }
             }
@@ -37,7 +37,7 @@ struct BudgetView: View {
                 value: (over ? -summary.remaining : summary.remaining).asCurrency,
                 color: over ? Theme.accent : Theme.positive
             )
-            Divider()
+            RuledLine()
             ResultRow(label: "Income", value: summary.monthlyIncome.asCurrency)
             ResultRow(label: "Expenses", value: summary.monthlyExpenses.asCurrency)
             if let rate = summary.savingsRate {
@@ -80,7 +80,7 @@ private struct IncomeRow: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 TextField("Name (e.g. Paycheck)", text: $income.name)
-                    .font(.body.weight(.semibold))
+                    .font(Theme.font(.body, weight: .semibold))
                 DeleteRowButton(action: onDelete)
             }
             MoneyField(title: "Per paycheck", value: $income.amountPerPaycheck)
@@ -89,7 +89,7 @@ private struct IncomeRow: View {
             }
             .pickerStyle(.segmented)
             Text("\(income.monthlyAmount.asCurrency) per month")
-                .font(.footnote)
+                .font(Theme.font(.footnote))
                 .foregroundStyle(Theme.muted)
         }
     }
@@ -109,7 +109,7 @@ private struct ExpenseRow: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 TextField("Expense (e.g. Rent)", text: $expense.name)
-                    .font(.body.weight(.semibold))
+                    .font(Theme.font(.body, weight: .semibold))
                     .onChange(of: expense.name) { _, newName in
                         if expense.categoryIsAutomatic {
                             expense.category = BudgetCategories.suggest(for: newName)
@@ -150,15 +150,15 @@ private struct CategoryBar: View {
                     .monospacedDigit()
                 if let share = category.shareOfIncome {
                     Text(share.asPercent)
-                        .font(.footnote)
+                        .font(Theme.font(.footnote))
                         .foregroundStyle(Theme.muted)
                         .frame(width: 52, alignment: .trailing)
                 }
             }
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Theme.cream)
-                    Capsule()
+                    RoundedRectangle(cornerRadius: 3).fill(Theme.cream)
+                    RoundedRectangle(cornerRadius: 3)
                         .fill(ChartColors.series1)
                         .frame(width: proxy.size.width * CGFloat(category.shareOfExpenses.doubleValue))
                 }

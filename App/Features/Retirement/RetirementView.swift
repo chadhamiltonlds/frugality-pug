@@ -42,7 +42,7 @@ struct RetirementView: View {
                 value: result.finalBalanceInTodayDollars.asWholeCurrency,
                 footnote: "\(result.finalBalance.asWholeCurrency) in future dollars"
             )
-            Divider()
+            RuledLine()
             ResultRow(label: "You and your employer put in", value: result.totalContributed.asWholeCurrency)
             ResultRow(label: "Investment growth", value: result.totalGrowth.asWholeCurrency)
             ResultRow(label: "Yearly income at \(model.input.withdrawalRate.asPercent)",
@@ -54,7 +54,7 @@ struct RetirementView: View {
                 ResultRow(label: "Total monthly income", value: model.totalMonthlyIncome.asWholeCurrency, emphasized: true)
             }
             Text("Income is in today's dollars.")
-                .font(.caption)
+                .font(Theme.font(.caption))
                 .foregroundStyle(Theme.muted)
         }
     }
@@ -78,7 +78,7 @@ struct RetirementView: View {
                 Stepper("Start benefits at: \(socialSecurity.wrappedValue.claimAge)",
                         value: socialSecurity.claimAge, in: 62...70)
                 if let ss = model.socialSecurity {
-                    Divider()
+                    RuledLine()
                     if ss.eligible {
                         ResultRow(label: "Estimated benefit", value: "\(ss.monthlyBenefit.asWholeCurrency)/mo", emphasized: true)
                         ResultRow(label: "At full retirement age (\(Self.ageText(ss.fullRetirementAgeMonths)))",
@@ -93,7 +93,7 @@ struct RetirementView: View {
                     }
                 }
                 Text("Rough estimate in today's dollars using SSA's 2026 formula, assuming steady earnings. For your actual record, check ssa.gov/myaccount. Spousal benefits and taxes aren't included.")
-                    .font(.caption)
+                    .font(Theme.font(.caption))
                     .foregroundStyle(Theme.muted)
             }
         }

@@ -8,8 +8,10 @@ the coin is engraved with the same pug's head (its own line art, recolored in go
 Everything is composed as one SVG and rendered once at full size, so edges stay crisp.
 
 Run: python3 Assets/make_icon.py App/Assets.xcassets/AppIcon.appiconset/icon.png \
-       --logo=App/Assets.xcassets/Logo.imageset/logo.png [--svg]
-(--logo also writes the small copy shown in the home screen's top-right corner.)
+       --logo=App/Assets.xcassets/Logo.imageset/logo.png \
+       --head=App/Assets.xcassets/PugHead.imageset/pug-head.png [--svg]
+(--logo writes a small copy of the icon for the About sheet; --head writes the pug's head alone,
+on a transparent background, for the home screen's top-right corner.)
 Needs: pip install cairosvg pillow
 """
 import io
@@ -143,5 +145,15 @@ out.save(target)
 for arg in sys.argv[1:]:
     if arg.startswith("--logo="):
         out.resize((256, 256), Image.LANCZOS).save(arg.split("=", 1)[1])
+    if arg.startswith("--head="):
+        # The pug's head alone: everything above the jaw, closed off with a jaw line.
+        head_svg = (
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 145 102" width="435" height="306">'
+            '<defs><clipPath id="head"><path d="M-20,-20 H160 V83.45 L108.31,83.45 Q68.3,104 29.66,83.06 L-20,83.06 Z"/></clipPath></defs>'
+            f'<g clip-path="url(#head)" fill="{INK}">{body}</g>'
+            f'<path d="{JAW}" fill="none" stroke="{INK}" stroke-width="{OUTLINE}" stroke-linecap="round"/>'
+            '</svg>'
+        )
+        cairosvg.svg2png(bytestring=head_svg.encode(), write_to=arg.split("=", 1)[1])
 if "--svg" in sys.argv:
     open(os.path.splitext(target)[0] + ".svg", "w").write(svg)

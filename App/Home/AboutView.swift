@@ -32,7 +32,7 @@ struct AboutView: View {
                             Text("Everything you enter stays on this phone. There are no accounts, no tracking and no ads.")
                         }
                         Text(version)
-                            .font(.footnote)
+                            .font(Theme.font(.footnote))
                             .foregroundStyle(Theme.muted)
                     }
                     .foregroundStyle(Theme.ink)

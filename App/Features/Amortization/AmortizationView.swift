@@ -51,7 +51,7 @@ struct AmortizationView: View {
                           valueColor: Theme.positive)
             }
             Text("Taxes, insurance and PMI aren't included.")
-                .font(.caption)
+                .font(Theme.font(.caption))
                 .foregroundStyle(Theme.muted)
         }
     }
@@ -94,7 +94,7 @@ struct AmortizationView: View {
                         Text("\(year.principalPaid.asWholeCurrency) · \(year.interestPaid.asWholeCurrency) · \(year.balance.asWholeCurrency)")
                             .monospacedDigit()
                     }
-                    .font(year.year == model.input.checkAfterYears ? .body.weight(.bold) : .body)
+                    .font(Theme.font(.body, weight: year.year == model.input.checkAfterYears ? .semibold : .regular))
                     .foregroundStyle(Theme.ink)
                 }
             }

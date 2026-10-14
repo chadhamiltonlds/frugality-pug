@@ -30,6 +30,7 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         ITSAppUsesNonExemptEncryption: false
+        UIAppFonts: [Fredoka-Light.ttf, Fredoka-Regular.ttf, Fredoka-Medium.ttf, Fredoka-SemiBold.ttf, Fredoka-Bold.ttf]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.frugalitypug.app

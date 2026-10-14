@@ -10,14 +10,14 @@ struct NetWorthView: View {
             SectionCard(title: "Assets") {
                 ForEach($model.input.assets) { $asset in
                     AssetRow(asset: $asset) { model.deleteAsset(asset.id) }
-                    Divider()
+                    RuledLine()
                 }
                 AddRowButton(title: "Add asset") { model.addAsset() }
             }
             SectionCard(title: "Debts") {
                 ForEach($model.input.debts) { $debt in
                     DebtRow(debt: $debt) { model.deleteDebt(debt.id) }
-                    Divider()
+                    RuledLine()
                 }
                 AddRowButton(title: "Add debt") { model.addDebt() }
             }
@@ -33,7 +33,7 @@ struct NetWorthView: View {
                 value: result.netWorth.asCurrency,
                 color: result.netWorth >= 0 ? Theme.positive : Theme.accent
             )
-            Divider()
+            RuledLine()
             ResultRow(label: "Total assets", value: result.totalAssets.asCurrency)
             ResultRow(label: "Total debts", value: result.totalDebts.asCurrency)
             if let ratio = result.debtToAssetRatio {
@@ -57,7 +57,7 @@ struct NetWorthView: View {
                     ResultRow(label: item.category.displayName, value: item.total.asCurrency)
                 }
                 if !result.assetsByCategory.isEmpty && !result.debtsByCategory.isEmpty {
-                    Divider()
+                    RuledLine()
                 }
                 ForEach(result.debtsByCategory, id: \.category) { item in
                     ResultRow(label: item.category.displayName, value: (-item.total).asCurrency, valueColor: Theme.accent)
@@ -75,7 +75,7 @@ private struct AssetRow: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 TextField("Name (e.g. Checking)", text: $asset.name)
-                    .font(.body.weight(.semibold))
+                    .font(Theme.font(.body, weight: .semibold))
                 DeleteRowButton(action: onDelete)
             }
             HStack {
@@ -100,7 +100,7 @@ private struct DebtRow: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 TextField("Name (e.g. Car loan)", text: $debt.name)
-                    .font(.body.weight(.semibold))
+                    .font(Theme.font(.body, weight: .semibold))
                 DeleteRowButton(action: onDelete)
             }
             HStack {

@@ -48,7 +48,7 @@ struct SnowballView: View {
                 value: "\(last?.propertiesOwned ?? 0)",
                 footnote: last.map { "Net worth from real estate: \($0.netWorth.asWholeCurrency) (equity + cash)" }
             )
-            Divider()
+            RuledLine()
             ResultRow(label: "Cash needed per property", value: result.cashNeededPerProperty.asWholeCurrency)
             ResultRow(label: "Cash flow per property (month 1)", value: flow.asCurrency,
                       valueColor: flow >= 0 ? Theme.positive : Theme.accent)
@@ -58,7 +58,7 @@ struct SnowballView: View {
                 ResultRow(label: "Cash flow in the last year", value: last.annualCashFlow.asWholeCurrency)
             }
             Text("Each month, rent pays expenses and the mortgage; savings and cash flow pile up until the next down payment is covered. Taxes, refinancing and selling aren't included.")
-                .font(.caption)
+                .font(Theme.font(.caption))
                 .foregroundStyle(Theme.muted)
         }
     }

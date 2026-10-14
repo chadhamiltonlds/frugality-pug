@@ -17,24 +17,26 @@ struct HomeView: View {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Frugality Pug")
-                                    .font(.system(.largeTitle, design: .rounded).weight(.heavy))
+                                    .font(Theme.font(.largeTitle, weight: .bold))
                                     .foregroundStyle(Theme.ink)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
                                 Text("Plan it. Budget it. Keep it.")
+                                    .font(Theme.font(.body, weight: .medium))
                                     .foregroundStyle(Theme.muted)
                             }
                             Spacer()
-                            Image("Logo")
+                            Image("PugHead")
                                 .resizable()
+                                .interpolation(.high)
                                 .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                                .shadow(color: Theme.ink.opacity(0.12), radius: 4, y: 2)
+                                .frame(width: 64)
                                 .accessibilityHidden(true)
                         }
                         LazyVGrid(columns: columns, spacing: 14) {
-                            ForEach(order) { feature in
+                            ForEach(Array(order.enumerated()), id: \.element) { index, feature in
                                 NavigationLink(value: feature) {
-                                    FeatureTile(feature: feature)
+                                    FeatureTile(feature: feature, tagColor: Theme.rampColor(index))
                                 }
                                 .buttonStyle(.plain)
                                 .onDrag {
@@ -47,19 +49,19 @@ struct HomeView: View {
                             }
                         }
                         Text("Press and hold a calculator to move it.")
-                            .font(.footnote)
+                            .font(Theme.font(.footnote))
                             .foregroundStyle(Theme.muted)
                             .frame(maxWidth: .infinity)
                         VStack(spacing: 8) {
                             Text("AI-built estimates for fun and planning. Not financial advice.")
-                                .font(.footnote)
+                                .font(Theme.font(.footnote))
                                 .foregroundStyle(Theme.muted)
                                 .multilineTextAlignment(.center)
                             Button {
                                 showingAbout = true
                             } label: {
                                 Label("About & disclaimer", systemImage: "info.circle")
-                                    .font(.footnote.weight(.semibold))
+                                    .font(Theme.font(.footnote, weight: .semibold))
                             }
                             .tint(Theme.accent)
                         }
@@ -110,21 +112,23 @@ private struct ReorderDropDelegate: DropDelegate {
 /// Every tile is the same size: fixed height, title on one line, subtitle on up to two.
 private struct FeatureTile: View {
     let feature: Feature
+    /// Follows the tile's position, like Priority Pusher's 1/2/3 chips: red first, cooling to tan.
+    let tagColor: Color
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Image(systemName: feature.symbol)
-                .font(.title2)
-                .foregroundStyle(.white)
-                .frame(width: 44, height: 44)
-                .background(Theme.accent, in: Circle())
+            InkTag(fill: tagColor, size: CGSize(width: 42, height: 38)) {
+                Image(systemName: feature.symbol)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(.white)
+            }
             Text(feature.title)
-                .font(.system(.headline, design: .rounded))
+                .font(Theme.font(.headline, weight: .semibold))
                 .foregroundStyle(Theme.ink)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
             Text(feature.subtitle)
-                .font(.footnote)
+                .font(Theme.font(.footnote))
                 .foregroundStyle(Theme.muted)
                 .lineLimit(2, reservesSpace: true)
                 .multilineTextAlignment(.leading)
@@ -133,6 +137,6 @@ private struct FeatureTile: View {
         .frame(maxWidth: .infinity, minHeight: 130, maxHeight: 130, alignment: .topLeading)
         .dynamicTypeSize(...DynamicTypeSize.xLarge)
         .card()
-        .contentShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+        .contentShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
     }
 }

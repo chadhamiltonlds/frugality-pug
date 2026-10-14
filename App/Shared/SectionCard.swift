@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// A titled white card. Use for every group of inputs or results.
+/// A titled ink-outlined paper card. Use for every group of inputs or results.
 struct SectionCard<Content: View>: View {
     let title: String
     @ViewBuilder let content: Content
@@ -8,8 +8,9 @@ struct SectionCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .font(.system(.subheadline, design: .rounded).weight(.semibold))
-                .foregroundStyle(Theme.muted)
+                .font(Theme.font(.headline, weight: .semibold))
+                .foregroundStyle(Theme.ink)
+                .accessibilityAddTraits(.isHeader)
             content
         }
         .card()
@@ -32,7 +33,7 @@ struct ResultRow: View {
                 .foregroundStyle(valueColor)
                 .monospacedDigit()
         }
-        .font(emphasized ? .body.weight(.bold) : .body)
+        .font(Theme.font(.body, weight: emphasized ? .semibold : .regular))
     }
 }
 
@@ -46,16 +47,16 @@ struct HeadlineNumber: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(caption)
-                .font(.footnote)
+                .font(Theme.font(.subheadline))
                 .foregroundStyle(Theme.muted)
             Text(value)
-                .font(.system(size: 36, weight: .heavy, design: .rounded))
+                .font(Theme.font(size: 36, weight: .bold))
                 .foregroundStyle(color)
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
             if let footnote {
                 Text(footnote)
-                    .font(.footnote)
+                    .font(Theme.font(.footnote))
                     .foregroundStyle(Theme.muted)
             }
         }
@@ -90,11 +91,18 @@ struct AddRowButton: View {
 
     var body: some View {
         Button(action: action) {
-            Label(title, systemImage: "plus.circle.fill")
-                .font(.body.weight(.semibold))
+            HStack(spacing: 10) {
+                InkTag(fill: Theme.accent, size: CGSize(width: 28, height: 28)) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 13, weight: .heavy))
+                        .foregroundStyle(.white)
+                }
+                Text(title)
+                    .font(Theme.font(.body, weight: .semibold))
+                    .foregroundStyle(Theme.ink)
+            }
         }
         .buttonStyle(.borderless)
-        .tint(Theme.accent)
     }
 }
 

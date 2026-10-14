@@ -77,7 +77,7 @@ When you change a calculator's inputs, outputs, or method, update its doc in the
 
 ## Theme (matches Priority Pusher)
 Cream `#FFF4E4`, peach `#F9D3A0`, red accent `#E5484D`, muted brown `#8A6F66`, dark brown text `#2B1E1A`.
-Warm peach gradient backgrounds, white rounded cards, red/orange/tan chips.
+Look: "pug's pocket ledger". Flat cream graph-paper page, paper slips with 3pt corners, 1.5pt ink outlines and hard peach offset shadows; results are receipts with a torn edge. Add money green `#3E9B5F`, coin mustard `#E0A526`. SF Pro, titles/figures black + expanded; sentence case. No pills, circles, gradients, or rounded fonts. Components: `docs/features/shared.md`.
 Icon: the fawn pug from Priority Pusher's icon, used from its vector original (`Assets/source/pug-fawn.svg`, copied unchanged from Platypug), peeking over a gold coin engraved with the same pug's head. Built by `Assets/make_icon.py` (needs `pip install cairosvg`). Never redraw or reshape the pug.
 
 ## Build and accounts

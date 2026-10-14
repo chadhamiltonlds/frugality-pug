@@ -11,14 +11,14 @@ struct BudgetView: View {
             SectionCard(title: "Income (take-home)") {
                 ForEach($model.input.incomes) { $income in
                     IncomeRow(income: $income) { model.deleteIncome(income.id) }
-                    Divider()
+                    DashedRule()
                 }
                 AddRowButton(title: "Add income") { model.addIncome() }
             }
             SectionCard(title: "Monthly expenses") {
                 ForEach($model.input.expenses) { $expense in
                     ExpenseRow(expense: $expense, categories: model.categories) { model.deleteExpense(expense.id) }
-                    Divider()
+                    DashedRule()
                 }
                 AddRowButton(title: "Add expense") { model.addExpense() }
             }
@@ -31,13 +31,13 @@ struct BudgetView: View {
     private var summaryCard: some View {
         let summary = model.summary
         let over = summary.remaining < 0
-        return SectionCard(title: "This month") {
+        return ReceiptCard(title: "This month") {
             HeadlineNumber(
                 caption: over ? "Over budget by" : "Left to assign",
                 value: (over ? -summary.remaining : summary.remaining).asCurrency,
                 color: over ? Theme.accent : Theme.positive
             )
-            Divider()
+            DashedRule()
             ResultRow(label: "Income", value: summary.monthlyIncome.asCurrency)
             ResultRow(label: "Expenses", value: summary.monthlyExpenses.asCurrency)
             if let rate = summary.savingsRate {
@@ -84,10 +84,7 @@ private struct IncomeRow: View {
                 DeleteRowButton(action: onDelete)
             }
             MoneyField(title: "Per paycheck", value: $income.amountPerPaycheck)
-            Picker("Paid", selection: $income.schedule) {
-                ForEach(BudgetPaySchedule.allCases) { Text($0.displayName).tag($0) }
-            }
-            .pickerStyle(.segmented)
+            ChoiceBar(selection: $income.schedule, options: BudgetPaySchedule.allCases) { $0.displayName }
             Text("\(income.monthlyAmount.asCurrency) per month")
                 .font(.footnote)
                 .foregroundStyle(Theme.muted)
@@ -157,13 +154,14 @@ private struct CategoryBar: View {
             }
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Theme.cream)
-                    Capsule()
+                    Rectangle().fill(Theme.cream)
+                    Rectangle()
                         .fill(ChartColors.series1)
                         .frame(width: proxy.size.width * CGFloat(category.shareOfExpenses.doubleValue))
                 }
             }
-            .frame(height: 6)
+            .frame(height: 8)
+            .overlay(Rectangle().stroke(Theme.ink, lineWidth: 1))
         }
         .accessibilityElement(children: .combine)
     }

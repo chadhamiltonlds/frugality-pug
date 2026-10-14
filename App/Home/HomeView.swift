@@ -17,9 +17,12 @@ struct HomeView: View {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Frugality Pug")
-                                    .font(.system(.largeTitle, design: .rounded).weight(.heavy))
+                                    .font(Theme.display(.largeTitle))
                                     .foregroundStyle(Theme.ink)
+                                    .minimumScaleFactor(0.6)
+                                    .lineLimit(1)
                                 Text("Plan it. Budget it. Keep it.")
+                                    .font(.subheadline.weight(.medium))
                                     .foregroundStyle(Theme.muted)
                             }
                             Spacer()
@@ -27,8 +30,10 @@ struct HomeView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 60, height: 60)
-                                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                                .shadow(color: Theme.ink.opacity(0.12), radius: 4, y: 2)
+                                .overlay(Rectangle().stroke(Theme.ink, lineWidth: Theme.lineWidth))
+                                .background(Rectangle().fill(Theme.shadow).offset(x: 3, y: 3))
+                                .rotationEffect(.degrees(4))
+                                .padding(.top, 4)
                                 .accessibilityHidden(true)
                         }
                         LazyVGrid(columns: columns, spacing: 14) {
@@ -36,7 +41,7 @@ struct HomeView: View {
                                 NavigationLink(value: feature) {
                                     FeatureTile(feature: feature)
                                 }
-                                .buttonStyle(.plain)
+                                .buttonStyle(SlipPressStyle())
                                 .onDrag {
                                     dragging = feature
                                     return NSItemProvider(object: feature.rawValue as NSString)
@@ -58,8 +63,9 @@ struct HomeView: View {
                             Button {
                                 showingAbout = true
                             } label: {
-                                Label("About & disclaimer", systemImage: "info.circle")
-                                    .font(.footnote.weight(.semibold))
+                                Text("About & disclaimer")
+                                    .font(.footnote.weight(.bold))
+                                    .underline()
                             }
                             .tint(Theme.accent)
                         }
@@ -114,12 +120,13 @@ private struct FeatureTile: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Image(systemName: feature.symbol)
-                .font(.title2)
-                .foregroundStyle(.white)
-                .frame(width: 44, height: 44)
-                .background(Theme.accent, in: Circle())
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(badge.foreground)
+                .frame(width: 40, height: 40)
+                .background(badge.fill)
+                .overlay(Rectangle().stroke(Theme.ink, lineWidth: Theme.lineWidth))
             Text(feature.title)
-                .font(.system(.headline, design: .rounded))
+                .font(.headline.weight(.heavy))
                 .foregroundStyle(Theme.ink)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
@@ -132,7 +139,16 @@ private struct FeatureTile: View {
         }
         .frame(maxWidth: .infinity, minHeight: 130, maxHeight: 130, alignment: .topLeading)
         .dynamicTypeSize(...DynamicTypeSize.xLarge)
-        .card()
-        .contentShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+        .contentShape(Rectangle())
+    }
+
+    /// Each calculator gets its own ink color so the grid reads at a glance.
+    private var badge: (fill: Color, foreground: Color) {
+        switch feature {
+        case .retirement, .netWorth: return (Theme.positive, Theme.paper)
+        case .rentVsBuy, .amortization: return (ChartColors.series2, Theme.paper)
+        case .realEstateSnowball, .rentalAnalysis: return (Theme.coin, Theme.ink)
+        case .takeHome, .budget: return (Theme.accent, Theme.paper)
+        }
     }
 }

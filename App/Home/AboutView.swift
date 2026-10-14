@@ -16,12 +16,15 @@ struct AboutView: View {
             ZStack {
                 ThemedBackground()
                 ScrollView {
-                    VStack(spacing: 16) {
+                    VStack(spacing: 18) {
                         Image("Logo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 96, height: 96)
-                            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                            .overlay(Rectangle().stroke(Theme.ink, lineWidth: Theme.lineWidth))
+                            .background(Rectangle().fill(Theme.shadow).offset(x: 4, y: 4))
+                            .rotationEffect(.degrees(-3))
+                            .padding(.vertical, 8)
                             .accessibilityHidden(true)
                         SectionCard(title: "Disclaimer") {
                             Text("These calculators were built with the help of AI. They're estimates meant to be a fun way to dream about a possible future, not financial, tax, legal or investment advice.")

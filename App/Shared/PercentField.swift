@@ -7,18 +7,14 @@ struct PercentField: View {
     @State private var text = ""
 
     var body: some View {
-        HStack {
+        HStack(alignment: .lastTextBaseline) {
             Text(title)
                 .foregroundStyle(Theme.ink)
             Spacer()
-            TextField("0", text: $text)
-                .keyboardType(.decimalPad)
-                .multilineTextAlignment(.trailing)
-                .frame(maxWidth: 80)
+            UnderlinedInput(text: $text, suffix: "%", width: 96)
                 .onChange(of: text) { _, newText in
                     value = PercentField.parse(newText)
                 }
-            Text("%").foregroundStyle(Theme.muted)
         }
         .onAppear {
             text = NSDecimalNumber(decimal: value * 100).stringValue

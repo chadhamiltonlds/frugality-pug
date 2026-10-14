@@ -11,8 +11,8 @@ struct RetirementView: View {
     var body: some View {
         CalculatorScreen(title: "Retirement") {
             SectionCard(title: "You") {
-                Stepper("Current age: \(model.input.currentAge)", value: $model.input.currentAge, in: 0...100)
-                Stepper("Retire at: \(model.input.retirementAge)", value: $model.input.retirementAge, in: 1...100)
+                LedgerStepper("Current age", value: $model.input.currentAge, in: 0...100)
+                LedgerStepper("Retire at", value: $model.input.retirementAge, in: 1...100)
             }
             SectionCard(title: "Saving") {
                 MoneyField(title: "Saved so far", value: $model.input.currentSavings)
@@ -36,13 +36,13 @@ struct RetirementView: View {
     private var resultCard: some View {
         let result = model.result
         let retireAge = max(model.input.retirementAge, model.input.currentAge)
-        return SectionCard(title: "At age \(retireAge)") {
+        return ReceiptCard(title: "At age \(retireAge)") {
             HeadlineNumber(
                 caption: "Saved, in today's dollars",
                 value: result.finalBalanceInTodayDollars.asWholeCurrency,
                 footnote: "\(result.finalBalance.asWholeCurrency) in future dollars"
             )
-            Divider()
+            DashedRule()
             ResultRow(label: "You and your employer put in", value: result.totalContributed.asWholeCurrency)
             ResultRow(label: "Investment growth", value: result.totalGrowth.asWholeCurrency)
             ResultRow(label: "Yearly income at \(model.input.withdrawalRate.asPercent)",
@@ -73,12 +73,10 @@ struct RetirementView: View {
             Toggle("Include Social Security", isOn: socialSecurity.isOn)
             if socialSecurity.wrappedValue.isOn {
                 MoneyField(title: "Typical yearly earnings", value: socialSecurity.annualEarnings)
-                Stepper("Years you'll have worked: \(socialSecurity.wrappedValue.yearsWorked)",
-                        value: socialSecurity.yearsWorked, in: 0...50)
-                Stepper("Start benefits at: \(socialSecurity.wrappedValue.claimAge)",
-                        value: socialSecurity.claimAge, in: 62...70)
+                LedgerStepper("Years you'll have worked", value: socialSecurity.yearsWorked, in: 0...50)
+                LedgerStepper("Start benefits at age", value: socialSecurity.claimAge, in: 62...70)
                 if let ss = model.socialSecurity {
-                    Divider()
+                    DashedRule()
                     if ss.eligible {
                         ResultRow(label: "Estimated benefit", value: "\(ss.monthlyBenefit.asWholeCurrency)/mo", emphasized: true)
                         ResultRow(label: "At full retirement age (\(Self.ageText(ss.fullRetirementAgeMonths)))",

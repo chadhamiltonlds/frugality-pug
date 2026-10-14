@@ -10,14 +10,14 @@ struct NetWorthView: View {
             SectionCard(title: "Assets") {
                 ForEach($model.input.assets) { $asset in
                     AssetRow(asset: $asset) { model.deleteAsset(asset.id) }
-                    Divider()
+                    DashedRule()
                 }
                 AddRowButton(title: "Add asset") { model.addAsset() }
             }
             SectionCard(title: "Debts") {
                 ForEach($model.input.debts) { $debt in
                     DebtRow(debt: $debt) { model.deleteDebt(debt.id) }
-                    Divider()
+                    DashedRule()
                 }
                 AddRowButton(title: "Add debt") { model.addDebt() }
             }
@@ -27,13 +27,13 @@ struct NetWorthView: View {
 
     private var resultCard: some View {
         let result = model.result
-        return SectionCard(title: "Summary") {
+        return ReceiptCard(title: "Summary") {
             HeadlineNumber(
                 caption: "Net worth",
                 value: result.netWorth.asCurrency,
                 color: result.netWorth >= 0 ? Theme.positive : Theme.accent
             )
-            Divider()
+            DashedRule()
             ResultRow(label: "Total assets", value: result.totalAssets.asCurrency)
             ResultRow(label: "Total debts", value: result.totalDebts.asCurrency)
             if let ratio = result.debtToAssetRatio {
@@ -57,7 +57,7 @@ struct NetWorthView: View {
                     ResultRow(label: item.category.displayName, value: item.total.asCurrency)
                 }
                 if !result.assetsByCategory.isEmpty && !result.debtsByCategory.isEmpty {
-                    Divider()
+                    DashedRule()
                 }
                 ForEach(result.debtsByCategory, id: \.category) { item in
                     ResultRow(label: item.category.displayName, value: (-item.total).asCurrency, valueColor: Theme.accent)

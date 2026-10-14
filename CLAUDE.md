@@ -40,7 +40,8 @@ Packages/FrugalityCore/  Swift package: all calculation logic, no UI/persistence
   Sources/FrugalityCore/Resources/tax/<year>/   federal and per-state tax data (JSON)
   Tests/FrugalityCoreTests/       unit tests, mirrors Sources layout
 Assets/                icon generator (make_icon.py) and its source art (source/); the icon PNG lives in App/Assets.xcassets
-docs/                  features/<name>.md per calculator, features/shared.md, tax-data.md
+docs/                  features/<name>.md per calculator, features/shared.md, tax-data.md, app-store-listing.md
+site/                  public web pages (landing, privacy, support); published to the gh-pages branch (see Build and accounts)
 ```
 
 ## Features
@@ -83,6 +84,7 @@ Icon: the fawn pug from Priority Pusher's icon, used from its vector original (`
 - GitHub: `chadhamiltonlds/frugality-pug`. Claude's GitHub access follows whichever account Chad's claude.ai GitHub integration is connected to; one account at a time.
 - CI: Codemagic (reused from Priority Pusher). Apple developer account: the family account.
 - Bundle ID: `com.frugalitypug.app` (registered). App Store Connect Apple ID: 6821125716.
+- Website: edit `site/`, commit to `main`, then publish with `git subtree split --prefix site -b gh-pages-tmp && git push -f origin gh-pages-tmp:gh-pages && git branch -D gh-pages-tmp`. Served by GitHub Pages (branch `gh-pages`, root) at https://chadhamiltonlds.github.io/frugality-pug/. Pages on a free plan needs the repo to stay public.
 
 ## Token hygiene
 - Keep this file short. Put long notes in `docs/` and link them.

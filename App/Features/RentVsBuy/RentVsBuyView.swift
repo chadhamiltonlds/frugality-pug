@@ -11,13 +11,13 @@ struct RentVsBuyView: View {
     var body: some View {
         CalculatorScreen(title: "Rent vs Buy") {
             SectionCard(title: "Time frame") {
-                LedgerStepper("Compare over", value: $model.input.years, in: 1...40, valueText: LedgerStepper.years)
+                Stepper("Compare over \(model.input.years) years", value: $model.input.years, in: 1...40)
             }
             SectionCard(title: "Buying") {
                 MoneyField(title: "Home price", value: $model.input.homePrice)
                 PercentField(title: "Down payment", value: $model.input.downPaymentRate)
                 PercentField(title: "Mortgage rate", value: $model.input.mortgageRate)
-                LedgerStepper("Loan term", value: $model.input.mortgageYears, in: 5...40, step: 5, valueText: LedgerStepper.years)
+                Stepper("Loan term: \(model.input.mortgageYears) years", value: $model.input.mortgageYears, in: 5...40, step: 5)
                 PercentField(title: "Closing costs", value: $model.input.buyClosingCostRate)
                 PercentField(title: "Selling costs", value: $model.input.sellingCostRate)
                 PercentField(title: "Property tax (yearly)", value: $model.input.propertyTaxRate)
@@ -45,7 +45,7 @@ struct RentVsBuyView: View {
         let result = model.result
         let advantage = result.finalAdvantageOfBuying
         let years = result.years.count
-        return ReceiptCard(title: "After \(LedgerStepper.years(years))") {
+        return SectionCard(title: "After \(years) years") {
             HeadlineNumber(
                 caption: advantage >= 0 ? "Buying comes out ahead by" : "Renting comes out ahead by",
                 value: (advantage >= 0 ? advantage : -advantage).asWholeCurrency,
@@ -53,7 +53,7 @@ struct RentVsBuyView: View {
                 footnote: result.breakEvenYear.map { "Buying pulls ahead in year \($0)" }
                     ?? "Buying doesn't pull ahead within \(years) years"
             )
-            DashedRule()
+            Divider()
             ResultRow(label: "Cash to buy (down + closing)", value: result.upfrontCashToBuy.asWholeCurrency)
             ResultRow(label: "Mortgage payment", value: result.monthlyMortgagePayment.asCurrency)
             ResultRow(label: "First month owning, all in", value: result.firstMonthOwnerCost.asCurrency)
@@ -98,15 +98,17 @@ struct RentVsBuyView: View {
     }
 
     private var tableCard: some View {
-        SectionCard(title: "Net worth, year by year") {
-            LedgerTable(
-                headers: ["Year", "Buy", "Rent"],
-                rows: model.result.years.map { year in
-                    LedgerTable.Row(id: year.year,
-                                    cells: ["\(year.year)", year.buyerNetWorth.asWholeCurrency,
-                                            year.renterNetWorth.asWholeCurrency])
+        SectionCard(title: "Year by year: buy vs rent net worth") {
+            ForEach(model.result.years) { year in
+                HStack {
+                    Text("Year \(year.year)")
+                        .foregroundStyle(Theme.ink)
+                    Spacer()
+                    Text("\(year.buyerNetWorth.asWholeCurrency) · \(year.renterNetWorth.asWholeCurrency)")
+                        .foregroundStyle(Theme.ink)
+                        .monospacedDigit()
                 }
-            )
+            }
         }
     }
 }

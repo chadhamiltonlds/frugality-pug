@@ -11,14 +11,14 @@ struct BudgetView: View {
             SectionCard(title: "Income (take-home)") {
                 ForEach($model.input.incomes) { $income in
                     IncomeRow(income: $income) { model.deleteIncome(income.id) }
-                    DashedRule()
+                    Divider()
                 }
                 AddRowButton(title: "Add income") { model.addIncome() }
             }
             SectionCard(title: "Monthly expenses") {
                 ForEach($model.input.expenses) { $expense in
                     ExpenseRow(expense: $expense, categories: model.categories) { model.deleteExpense(expense.id) }
-                    DashedRule()
+                    Divider()
                 }
                 AddRowButton(title: "Add expense") { model.addExpense() }
             }
@@ -31,13 +31,13 @@ struct BudgetView: View {
     private var summaryCard: some View {
         let summary = model.summary
         let over = summary.remaining < 0
-        return ReceiptCard(title: "This month") {
+        return SectionCard(title: "This month") {
             HeadlineNumber(
                 caption: over ? "Over budget by" : "Left to assign",
                 value: (over ? -summary.remaining : summary.remaining).asCurrency,
                 color: over ? Theme.accent : Theme.positive
             )
-            DashedRule()
+            Divider()
             ResultRow(label: "Income", value: summary.monthlyIncome.asCurrency)
             ResultRow(label: "Expenses", value: summary.monthlyExpenses.asCurrency)
             if let rate = summary.savingsRate {
@@ -84,7 +84,10 @@ private struct IncomeRow: View {
                 DeleteRowButton(action: onDelete)
             }
             MoneyField(title: "Per paycheck", value: $income.amountPerPaycheck)
-            ChoiceBar(selection: $income.schedule, options: BudgetPaySchedule.allCases) { $0.displayName }
+            Picker("Paid", selection: $income.schedule) {
+                ForEach(BudgetPaySchedule.allCases) { Text($0.displayName).tag($0) }
+            }
+            .pickerStyle(.segmented)
             Text("\(income.monthlyAmount.asCurrency) per month")
                 .font(.footnote)
                 .foregroundStyle(Theme.muted)
@@ -154,14 +157,13 @@ private struct CategoryBar: View {
             }
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    Rectangle().fill(Theme.cream)
-                    Rectangle()
+                    Capsule().fill(Theme.cream)
+                    Capsule()
                         .fill(ChartColors.series1)
                         .frame(width: proxy.size.width * CGFloat(category.shareOfExpenses.doubleValue))
                 }
             }
-            .frame(height: 8)
-            .overlay(Rectangle().stroke(Theme.ink, lineWidth: 1))
+            .frame(height: 6)
         }
         .accessibilityElement(children: .combine)
     }

@@ -10,7 +10,7 @@ struct AmortizationView: View {
             SectionCard(title: "Loan") {
                 MoneyField(title: "Loan amount", value: $model.input.loanAmount)
                 PercentField(title: "Interest rate", value: $model.input.annualRate)
-                LedgerStepper("Term", value: $model.input.termYears, in: 5...40, step: 5, valueText: LedgerStepper.years)
+                Stepper("Term: \(model.input.termYears) years", value: $model.input.termYears, in: 5...40, step: 5)
                 MoneyField(title: "Extra principal per month", value: $model.input.extraMonthlyPayment)
             }
             checkCard
@@ -23,11 +23,10 @@ struct AmortizationView: View {
 
     private var checkCard: some View {
         let result = model.result
-        let term = model.input.termYears
-        return ReceiptCard(title: "Still owed") {
-            LedgerStepper("After", value: $model.input.checkAfterYears, in: 0...max(term, 1)) {
-                LedgerStepper.years(min($0, term))
-            }
+        let years = min(model.input.checkAfterYears, model.input.termYears)
+        return SectionCard(title: "Still owed") {
+            Stepper("After \(years) \(years == 1 ? "year" : "years")",
+                    value: $model.input.checkAfterYears, in: 0...max(model.input.termYears, 1))
             HeadlineNumber(
                 caption: "Balance remaining",
                 value: result.balanceAtCheck.asCurrency,
@@ -39,7 +38,7 @@ struct AmortizationView: View {
 
     private var summaryCard: some View {
         let result = model.result
-        return ReceiptCard(title: "Whole loan") {
+        return SectionCard(title: "Whole loan") {
             ResultRow(label: "Monthly payment (principal + interest)", value: result.monthlyPayment.asCurrency, emphasized: true)
             if model.input.extraMonthlyPayment > 0 {
                 ResultRow(label: "With extra principal", value: (result.monthlyPayment + model.input.extraMonthlyPayment).asCurrency)
@@ -87,18 +86,17 @@ struct AmortizationView: View {
     @ViewBuilder
     private var tableCard: some View {
         if !model.result.years.isEmpty {
-            SectionCard(title: "Year by year") {
-                LedgerTable(
-                    headers: ["Year", "Principal", "Interest", "Balance"],
-                    rows: model.result.years.map { year in
-                        LedgerTable.Row(
-                            id: year.year,
-                            cells: ["\(year.year)", year.principalPaid.asWholeCurrency,
-                                    year.interestPaid.asWholeCurrency, year.balance.asWholeCurrency],
-                            emphasized: year.year == model.input.checkAfterYears
-                        )
+            SectionCard(title: "Year by year: principal · interest · balance") {
+                ForEach(model.result.years) { year in
+                    HStack {
+                        Text("Year \(year.year)")
+                        Spacer()
+                        Text("\(year.principalPaid.asWholeCurrency) · \(year.interestPaid.asWholeCurrency) · \(year.balance.asWholeCurrency)")
+                            .monospacedDigit()
                     }
-                )
+                    .font(year.year == model.input.checkAfterYears ? .body.weight(.bold) : .body)
+                    .foregroundStyle(Theme.ink)
+                }
             }
         }
     }

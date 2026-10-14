@@ -7,11 +7,15 @@ struct MoneyField: View {
     @State private var text = ""
 
     var body: some View {
-        HStack(alignment: .lastTextBaseline) {
+        HStack {
             Text(title)
                 .foregroundStyle(Theme.ink)
             Spacer()
-            UnderlinedInput(text: $text, prefix: "$", width: 140)
+            Text("$").foregroundStyle(Theme.muted)
+            TextField("0", text: $text)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .frame(maxWidth: 130)
                 .onChange(of: text) { _, newText in
                     value = MoneyField.parse(newText)
                 }

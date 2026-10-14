@@ -14,7 +14,7 @@ struct RentalAnalysisView: View {
                 PercentField(title: "Closing costs", value: $model.input.closingCostRate)
                 MoneyField(title: "Repairs up front", value: $model.input.upfrontRepairs)
                 PercentField(title: "Mortgage rate", value: $model.input.mortgageRate)
-                LedgerStepper("Loan term", value: $model.input.mortgageYears, in: 5...40, step: 5, valueText: LedgerStepper.years)
+                Stepper("Loan term: \(model.input.mortgageYears) years", value: $model.input.mortgageYears, in: 5...40, step: 5)
             }
             SectionCard(title: "Income (monthly)") {
                 MoneyField(title: "Rent", value: $model.input.monthlyRent)
@@ -48,14 +48,20 @@ struct RentalAnalysisView: View {
     private var verdictCard: some View {
         let result = model.result
         let style = Self.style(for: result.verdict)
-        return ReceiptCard(title: "Verdict") {
-            VerdictStamp(title: style.title, symbol: style.symbol, color: style.color, trigger: result.verdict)
-                .padding(.vertical, 4)
+        return SectionCard(title: "Verdict") {
+            HStack(spacing: 10) {
+                Image(systemName: style.symbol)
+                    .font(.title)
+                    .foregroundStyle(style.color)
+                Text(style.title)
+                    .font(.system(.title2, design: .rounded).weight(.heavy))
+                    .foregroundStyle(Theme.ink)
+            }
             HeadlineNumber(
                 caption: "Cash flow per month",
                 value: result.cashFlow.asCurrency,
                 color: result.cashFlow >= 0 ? Theme.positive : Theme.accent,
-                footnote: "\(result.annualCashFlow.asCurrency) per year. \(result.checks.filter(\.passed).count) of \(result.checks.count) checks pass."
+                footnote: "\(result.annualCashFlow.asCurrency) per year · \(result.checks.filter(\.passed).count) of \(result.checks.count) checks pass"
             )
         }
     }
@@ -64,7 +70,7 @@ struct RentalAnalysisView: View {
         SectionCard(title: "Checks") {
             ForEach(model.result.checks) { check in
                 HStack(alignment: .firstTextBaseline) {
-                    Image(systemName: check.passed ? "checkmark.square.fill" : "xmark.square.fill")
+                    Image(systemName: check.passed ? "checkmark.circle.fill" : "xmark.circle.fill")
                         .foregroundStyle(check.passed ? Theme.positive : Theme.accent)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(Self.name(check.kind))
@@ -86,14 +92,14 @@ struct RentalAnalysisView: View {
 
     private var detailsCard: some View {
         let r = model.result
-        return ReceiptCard(title: "The numbers (monthly unless noted)") {
+        return SectionCard(title: "The numbers (monthly unless noted)") {
             ResultRow(label: "Gross income", value: r.grossIncome.asCurrency)
             ResultRow(label: "Vacancy", value: (-r.vacancyLoss).asCurrency)
             ResultRow(label: "Operating expenses", value: (-r.operatingExpenses).asCurrency)
             ResultRow(label: "Net operating income", value: r.netOperatingIncome.asCurrency, emphasized: true)
             ResultRow(label: "Mortgage payment", value: (-r.monthlyMortgagePayment).asCurrency)
             ResultRow(label: "Cash flow", value: r.cashFlow.asCurrency, emphasized: true)
-            DashedRule()
+            Divider()
             ResultRow(label: "Cash you put in", value: r.cashInvested.asWholeCurrency)
             ResultRow(label: "Loan", value: r.loanAmount.asWholeCurrency)
             if let grm = r.grossRentMultiplier {
@@ -102,7 +108,7 @@ struct RentalAnalysisView: View {
             if let occupancy = r.breakEvenOccupancy {
                 ResultRow(label: "Break-even occupancy", value: occupancy.asPercent)
             }
-            DashedRule()
+            Divider()
             ResultRow(label: "Year 1 loan paydown", value: r.firstYearPrincipalPaydown.asWholeCurrency)
             ResultRow(label: "Year 1 appreciation", value: r.firstYearAppreciation.asWholeCurrency)
             if let total = r.firstYearTotalReturn {
@@ -138,7 +144,7 @@ struct RentalAnalysisView: View {
     static func style(for verdict: RentalVerdict) -> (title: String, symbol: String, color: Color) {
         switch verdict {
         case .good: return ("Good rental", "checkmark.seal.fill", Theme.positive)
-        case .borderline: return ("Borderline", "exclamationmark.triangle.fill", Color(hex: 0xC27A12))
+        case .borderline: return ("Borderline", "exclamationmark.triangle.fill", Color(hex: 0xD9822B))
         case .weak: return ("Weak deal", "xmark.octagon.fill", Theme.accent)
         }
     }
@@ -151,45 +157,19 @@ private struct RatioField: View {
     @State private var text = ""
 
     var body: some View {
-        HStack(alignment: .lastTextBaseline) {
+        HStack {
             Text(title).foregroundStyle(Theme.ink)
             Spacer()
-            UnderlinedInput(text: $text, suffix: "×", width: 96)
+            TextField("0", text: $text)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .frame(maxWidth: 80)
                 .onChange(of: text) { _, newText in
                     value = Decimal(string: newText.filter { $0.isNumber || $0 == "." },
                                     locale: Locale(identifier: "en_US_POSIX")) ?? 0
                 }
+            Text("×").foregroundStyle(Theme.muted)
         }
         .onAppear { text = NSDecimalNumber(decimal: value).stringValue }
-    }
-}
-
-/// The verdict as a tilted rubber stamp. It thumps down again whenever the verdict changes.
-private struct VerdictStamp: View {
-    let title: String
-    let symbol: String
-    let color: Color
-    let trigger: RentalVerdict
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Image(systemName: symbol)
-            Text(title)
-        }
-        .font(Theme.display(.title2))
-        .foregroundStyle(color)
-        .padding(.horizontal, 18)
-        .padding(.vertical, 12)
-        .overlay(Rectangle().stroke(color, lineWidth: 3))
-        .overlay(Rectangle().stroke(color, lineWidth: 1).padding(5))
-        .rotationEffect(.degrees(-4))
-        .phaseAnimator([false, true], trigger: trigger) { content, lifted in
-            content.scaleEffect(lifted && !reduceMotion ? 1.18 : 1)
-        } animation: { _ in
-            .spring(response: 0.18, dampingFraction: 0.55)
-        }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Verdict: \(title)")
     }
 }

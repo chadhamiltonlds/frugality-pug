@@ -8,20 +8,18 @@ struct SnowballView: View {
     var body: some View {
         CalculatorScreen(title: "Property Snowball") {
             SectionCard(title: "Plan") {
-                LedgerStepper("Run for", value: $model.input.years, in: 1...40, valueText: LedgerStepper.years)
+                Stepper("Run for \(model.input.years) years", value: $model.input.years, in: 1...40)
                 MoneyField(title: "Cash to start", value: $model.input.startingCash)
                 MoneyField(title: "Savings added per month", value: $model.input.monthlySavings)
                 Toggle("Reinvest rental cash flow", isOn: $model.input.reinvestCashFlow)
-                LedgerStepper("Stop at", value: $model.input.maxProperties, in: 1...100) {
-                    "\($0) \($0 == 1 ? "property" : "properties")"
-                }
+                Stepper("Stop at \(model.input.maxProperties) properties", value: $model.input.maxProperties, in: 1...100)
             }
             SectionCard(title: "Each property (today's prices)") {
                 MoneyField(title: "Price", value: $model.input.propertyPrice)
                 PercentField(title: "Down payment", value: $model.input.downPaymentRate)
                 PercentField(title: "Closing costs", value: $model.input.closingCostRate)
                 PercentField(title: "Mortgage rate", value: $model.input.mortgageRate)
-                LedgerStepper("Loan term", value: $model.input.mortgageYears, in: 5...40, step: 5, valueText: LedgerStepper.years)
+                Stepper("Loan term: \(model.input.mortgageYears) years", value: $model.input.mortgageYears, in: 5...40, step: 5)
                 MoneyField(title: "Monthly rent", value: $model.input.monthlyRent)
                 PercentField(title: "Vacancy", value: $model.input.vacancyRate)
                 PercentField(title: "Repairs (share of rent)", value: $model.input.maintenanceRate)
@@ -44,13 +42,13 @@ struct SnowballView: View {
         let result = model.result
         let last = result.years.last
         let flow = result.monthlyCashFlowPerProperty
-        return ReceiptCard(title: "After \(LedgerStepper.years(result.years.count))") {
+        return SectionCard(title: "After \(result.years.count) years") {
             HeadlineNumber(
                 caption: "Properties owned",
                 value: "\(last?.propertiesOwned ?? 0)",
                 footnote: last.map { "Net worth from real estate: \($0.netWorth.asWholeCurrency) (equity + cash)" }
             )
-            DashedRule()
+            Divider()
             ResultRow(label: "Cash needed per property", value: result.cashNeededPerProperty.asWholeCurrency)
             ResultRow(label: "Cash flow per property (month 1)", value: flow.asCurrency,
                       valueColor: flow >= 0 ? Theme.positive : Theme.accent)
@@ -71,14 +69,8 @@ struct SnowballView: View {
                 Text("Not enough cash for a down payment yet.")
                     .foregroundStyle(Theme.muted)
             }
-            if !model.result.purchases.isEmpty {
-                LedgerTable(
-                    headers: ["Property", "Bought", "Price"],
-                    rows: model.result.purchases.map { purchase in
-                        LedgerTable.Row(id: purchase.number,
-                                        cells: ["No. \(purchase.number)", Self.timing(purchase.month), purchase.price.asWholeCurrency])
-                    }
-                )
+            ForEach(model.result.purchases) { purchase in
+                ResultRow(label: "#\(purchase.number) · \(Self.timing(purchase.month))", value: purchase.price.asWholeCurrency)
             }
         }
     }
@@ -88,6 +80,7 @@ struct SnowballView: View {
             Chart(model.result.years) { year in
                 BarMark(x: .value("Year", year.year), y: .value("Net worth", year.netWorth.doubleValue))
                     .foregroundStyle(ChartColors.series1)
+                    .cornerRadius(4)
             }
             .chartYAxis {
                 AxisMarks { value in
@@ -102,15 +95,16 @@ struct SnowballView: View {
     }
 
     private var tableCard: some View {
-        SectionCard(title: "Year by year") {
-            LedgerTable(
-                headers: ["Year", "Owned", "Equity", "Cash"],
-                rows: model.result.years.map { year in
-                    LedgerTable.Row(id: year.year,
-                                    cells: ["\(year.year)", "\(year.propertiesOwned)",
-                                            year.equity.asWholeCurrency, year.cash.asWholeCurrency])
+        SectionCard(title: "Year by year: properties · equity · cash") {
+            ForEach(model.result.years) { year in
+                HStack {
+                    Text("Year \(year.year)")
+                    Spacer()
+                    Text("\(year.propertiesOwned) · \(year.equity.asWholeCurrency) · \(year.cash.asWholeCurrency)")
+                        .monospacedDigit()
                 }
-            )
+                .foregroundStyle(Theme.ink)
+            }
         }
     }
 
